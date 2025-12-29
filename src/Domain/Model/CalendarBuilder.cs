@@ -3,25 +3,31 @@ namespace Domain.Model;
 public class CalendarBuilder
 {
     private int id;
-    private string name;
+    private string? name;
+    private Project? project;
 
     public int Id => id;
-    public string Name
+    public string? Name
     {
         get { return name; }
         set { name = value; }
+    }
+    public Project? Project
+    {
+        get { return project; }
+        set { project = value; }
     }
 
     public CalendarBuilder(int id)
     {
         this.id = id;
-        name = "";
     }
 
     public CalendarBuilder(Calendar original)
     {
         id = original.Id;
         name = original.Name;
+        project = original.Project;
     }
 
     public CalendarBuilder WithName(string name)
@@ -29,9 +35,19 @@ public class CalendarBuilder
         Name = name;
         return this;
     }
+    
+    public CalendarBuilder WithProject(Project project)
+    {
+        Project = project;
+        return this;
+    }
 
     public Calendar Build()
     {
+        if(project == null || name == null)
+        {
+            throw new Exception("not all params set");
+        }
         return new Calendar(this);
     }
 }

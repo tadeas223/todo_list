@@ -3,26 +3,33 @@ namespace Domain.Model;
 public class BoardBuilder
 {
     private int id;
-    private string name;
+    private string? name;
+    private Project? project;
 
     public int Id => id;
 
-    public string Name
+    public string? Name
     {
         get { return name; }
         set {name = value; }
+    } 
+    
+    public Project? Project
+    {
+        get { return project; }
+        set {project = value; }
     } 
 
     public BoardBuilder(int id)
     {
         this.id = id;
-        name = "";
     }
 
     public BoardBuilder(Board original)
     {
         id = original.Id;
         name = original.Name;
+        project = original.Project;
     }
 
     public BoardBuilder WithName(string name)
@@ -30,9 +37,19 @@ public class BoardBuilder
         Name = name;
         return this;
     }
+    
+    public BoardBuilder WithProject(Project project)
+    {
+        Project = project;
+        return this;
+    }
 
     public Board Build()
     {
+        if(name == null || project == null)
+        {
+            throw new Exception("not all params set");
+        }
         return new Board(this);
     }
 }

@@ -47,9 +47,11 @@ classDiagram
     class Board {
         -id: int
         -name: string
+        -project: Project
 
         +«get» Id: int
         +«get» Name: string
+        +«get» Project: Project
 
         +Board(builder: BoardBuilder)
     } 
@@ -57,9 +59,11 @@ classDiagram
     class Calendar {
         -id: int
         -name: string
+        -project: Project
 
         +«get» Id: int
         +«get» Name: string
+        +«get» Project: Project
 
         +Calendar(builder: CalendarBuilder)
     }
@@ -71,6 +75,7 @@ classDiagram
         -state: TaskState
         -progress: float
         -finishDate: DateTime
+        -board: Board
 
         +«get» Id: int 
         +«get» Name: string
@@ -78,6 +83,7 @@ classDiagram
         +«get» State: TaskState
         +«get» Progress: float
         +«get» FinishDate: DateTime
+        +«get» Board: Board 
 
         +TodoTask(builder: TodoTaskBuilder)
     }
@@ -101,43 +107,51 @@ classDiagram
     class BoardBuilder {
         -id: int
         -name: string
+        -project: Project
 
         +«get» Id: int
         +«get/set» Name: string
+        +«get/set» Project: Project
 
         +BoardBuilder(id: int)
         +BoardBuilder(original: Board)
         +WithName(name: string) BoardBuilder
+        +WithProject(project: Project) BoardBuilder
         +Build() Board
     }
 
     class CalendarBuilder {
         -id: int
         -name: string
+        -project: Project
 
         +«get» Id: int
         +«get/set» Name: string
+        +«get/set» Project: Project
 
         +CalendarBuilder(id: int)
         +CalendarBuilder(original: Calendar)
         +WithName(name: string) CalendarBuilder
+        +WithProject(project: Project) CalendarBuilder
         +Build() Calendar
     }
 
     class TodoTaskBuilder {
         -id: int
-        -name: string
-        -desc: string
-        -state: TaskState
-        -progress: float
-        -finishDate: DateTime
+        -name: string?
+        -desc: string?
+        -state: TaskState?
+        -progress: float?
+        -finishDate: DateTime?
+        -board: Board?
         
         +«get» Id: int 
-        +«get/set» Name: string
-        +«get/set» Desc: string
-        +«get/set» State: TaskState
-        +«get/set» Progress: float
-        +«get/set» FinishDate: DateTime
+        +«get/set» Name: string?
+        +«get/set» Desc: string?
+        +«get/set» State: TaskState?
+        +«get/set» Progress: float?
+        +«get/set» FinishDate: DateTime?
+        +«get/set» Board: Board?
 
         +TodoTaskBuilder(id: int)
         +TodoTaskBuilder(original: TodoTask)
@@ -146,6 +160,7 @@ classDiagram
         +WithState(state: TaskState) TodoTaskBuilder
         +WithProgress(progress: float) TodoTaskBuilder
         +WithFinishDate(date: Date) TodoTaskBuilder
+        +WithBoard(board: Board) TodoTaskBuilder
         +Build() TodoTask 
     }
 

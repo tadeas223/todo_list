@@ -39,6 +39,8 @@ classDiagram
         +SelectAll() Set~Board~
         +SelectByName(name: string) Board?
         +SelectById(id: int) Board?
+
+        +SelectTodoTasks(board: Board) HashSet<TodoTask>
     }
     
     class ICalendarRepository {

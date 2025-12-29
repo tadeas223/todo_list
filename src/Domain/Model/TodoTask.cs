@@ -8,6 +8,7 @@ public class TodoTask
     private TaskState state;
     private float progress;
     private DateTime finishDate;
+    private Board board;
 
     public int Id => id;
     public string Name => name;
@@ -15,14 +16,16 @@ public class TodoTask
     public TaskState State => state;
     public float Progress => progress;
     public DateTime FinishDate => finishDate;
+    public Board Board => board;
 
     public TodoTask(TodoTaskBuilder builder)
     {
         this.id = builder.Id;
-        this.name = builder.Name;
-        this.desc = builder.Desc;
-        this.state = builder.State;
-        this.progress = builder.Progress;
-        this.finishDate = builder.FinishDate;
+        this.name = builder.Name!;
+        this.desc = builder.Desc!;
+        this.state = builder.State!.Value;
+        this.progress = builder.Progress!.Value;
+        this.finishDate = builder.FinishDate!.Value;
+        this.board = builder.Board!;
     }
 }

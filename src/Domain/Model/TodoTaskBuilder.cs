@@ -3,52 +3,53 @@ namespace Domain.Model;
 public class TodoTaskBuilder
 {
     private int id;
-    private string name;
-    private string desc;
-    private TaskState state;
-    private float progress;
-    private DateTime finishDate;
+    private string? name;
+    private string? desc;
+    private TaskState? state;
+    private float? progress;
+    private DateTime? finishDate;
+    private Board? board;
 
     public int Id
     {
         get { return id; }
         set { id = value; }
     }
-    public string Name
+    public string? Name
     {
         get { return name; }
         set { name = value; }
     }
     
-    public string Desc
+    public string? Desc
     {
         get { return desc; }
         set { desc = value; }
     }
-    public TaskState State
+    public TaskState? State
     {
         get { return state; }
         set { state = value; }
     }
-    public float Progress
+    public float? Progress
     {
         get { return progress; }
         set { progress = value; }
     }
-    public DateTime FinishDate
+    public DateTime? FinishDate
     {
         get { return finishDate; }
         set { finishDate = value; }
+    }
+    public Board? Board 
+    {
+        get { return board; }
+        set { board = value; }
     }
 
     public TodoTaskBuilder(int id)
     {
         this.id = id;
-        name = "";
-        desc = "";
-        state = TaskState.TODO;
-        progress = 0;
-        finishDate = DateTime.Now;
     }
 
     public TodoTaskBuilder(TodoTask original)
@@ -59,6 +60,7 @@ public class TodoTaskBuilder
         state = original.State;
         progress = original.Progress;
         finishDate = original.FinishDate;
+        board = original.Board;
     }
 
     public TodoTaskBuilder WithName(string name)
@@ -90,9 +92,24 @@ public class TodoTaskBuilder
         FinishDate = finishDate;
         return this;
     }
+    
+    public TodoTaskBuilder WithBoard(Board board)
+    {
+        Board = board;
+        return this;
+    }
 
     public TodoTask Build()
     {
+        if(name == null 
+        || board == null 
+        || desc == null 
+        || state == null 
+        || progress == null 
+        || finishDate == null)
+        {
+            throw new Exception("not all params set");
+        }
         return new TodoTask(this);
     }
 }
