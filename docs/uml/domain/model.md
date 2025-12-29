@@ -72,6 +72,7 @@ classDiagram
         -progress: float
         -finishDate: DateTime
 
+        +«get» Id: int 
         +«get» Name: string
         +«get» Desc: string
         +«get» State: TaskState
@@ -84,13 +85,16 @@ classDiagram
     class ProjectBuilder {
         -id: int
         -name: string
+        -locked: bool
 
         +«get» Id: int
         +«get/set» Name: int
+        +«get» Locked: bool
         
         +ProjectBuilder(id: int)
         +ProjectBuilder(original: Project)
         +withName(name: string) ProjectkBuilder
+        +withLocked(locked: bool) ProjectkBuilder
         +build() Project
     }
 
@@ -121,14 +125,14 @@ classDiagram
     }
 
     class TaskBuilder {
-        -id: string
+        -id: int
         -name: string
         -desc: string
         -state: TaskState
         -progress: float
         -finishDate: DateTime
         
-        +«get» Id: string
+        +«get» Id: int 
         +«get/set» Name: string
         +«get/set» Desc: string
         +«get/set» State: TaskState
