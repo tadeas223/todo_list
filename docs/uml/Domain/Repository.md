@@ -15,7 +15,7 @@ classDiagram
 
     class IDBConnection {
         +«get» Connected
-        +Connect(username: string, password: string, db: string)
+        +Connect(username: string, password: string, datasource: string)
         +Disconnect()
         +ExecuteQuery(string sq, params (string, object)[] parameters): DataTable;
         +ExecuteNonQuery(string sq, params (string, object)[] parameters): int;
@@ -27,8 +27,8 @@ classDiagram
         +Delete(project: Project)
 
         +SelectAll() Set~Project~
-        +SelectByName(name: string) Project
-        +SelectById(id: int) Project
+        +SelectByName(name: string) Project?
+        +SelectById(id: int) Project?
     }
     
     class IBoardRepository {
@@ -37,8 +37,8 @@ classDiagram
         +Delete(board: Board)
 
         +SelectAll() Set~Board~
-        +SelectByName(name: string) Board
-        +SelectById(id: int) Board
+        +SelectByName(name: string) Board?
+        +SelectById(id: int) Board?
     }
     
     class ICalendarRepository {
@@ -49,8 +49,8 @@ classDiagram
         +Delete(calendar: Calendar)
 
         +SelectAll() Set~Calendar~
-        +SelectByName(name: string) Calendar
-        +SelectById(id: int) Calendar
+        +SelectByName(name: string) Calendar?
+        +SelectById(id: int) Calendar?
 
         +SelectAllCalendarTasks(calendar: Calendar) Set~TodoTask~
         +SelectCalendarTasksByDate(calendar: Calendar, date: DateTime) Set~TodoTask~
@@ -62,8 +62,8 @@ classDiagram
         +Delete(task: TodoTask)
 
         +SelectAll() Set~TodoTask~
-        +SelectByName(name: string) TodoTask
-        +SelectById(id: int) TodoTask
+        +SelectByName(name: string) TodoTask?
+        +SelectById(id: int) TodoTask?
         +SelectByState(state: TaskState) Set~TodoTask~
         +SelectByFinishDate(date: Date) Set~TodoTask~
     }

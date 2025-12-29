@@ -9,6 +9,6 @@ public interface IProjectRepository
     public void Delete(Project project);
 
     public HashSet<Project> SelectAll();
-    public Project SelectByName(string name);
-    public Project SelectById(int id);
+    public Project? SelectByName(string name);
+    public Project? SelectById(int id);
 }

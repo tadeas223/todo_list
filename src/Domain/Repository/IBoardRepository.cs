@@ -10,6 +10,6 @@ public interface IBoardRepository
     public void Delete(Board board);
     
     public HashSet<Board> SelectAll();
-    public Board SelectByName(Board board);
-    public Board SelectById(Board board);
+    public Board? SelectByName(Board board);
+    public Board? SelectById(Board board);
 }

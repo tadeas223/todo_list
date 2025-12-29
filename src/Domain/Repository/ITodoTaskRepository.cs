@@ -9,7 +9,7 @@ public interface ITodoTaskRepository
     public void Delete(TodoTask task);
     
     public HashSet<TodoTask> SelectAll();
-    public TodoTask SelectById(int id);
-    public TodoTask SelectByName(string name);
+    public TodoTask? SelectById(int id);
+    public TodoTask? SelectByName(string name);
     public HashSet<TodoTask> SelectByState(TaskState state);
 }
