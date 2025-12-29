@@ -6,7 +6,11 @@ public class BoardBuilder
     private string? name;
     private Project? project;
 
-    public int? Id => id;
+    public int? Id
+    {
+        get { return id; }
+        set {id = value; }
+    } 
 
     public string? Name
     {
@@ -41,6 +45,12 @@ public class BoardBuilder
     public BoardBuilder WithProject(Project project)
     {
         Project = project;
+        return this;
+    }
+    
+    public BoardBuilder WithId(int id)
+    {
+        Id = id;
         return this;
     }
 
