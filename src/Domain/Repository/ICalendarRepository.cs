@@ -8,6 +8,7 @@ public interface ICalendarRepository
     public void Update(Calendar calendar);
     public void Delete(Calendar calendar);
 
+    public HashSet<Calendar> SelectAll();
     public Calendar SelectByName(string name);
     public Calendar SelectById(int id);
     public Calendar SelectCalendarTasks(string name);

@@ -8,6 +8,7 @@ public interface IProjectRepository
     public void Update(Project project);
     public void Delete(Project project);
 
+    public HashSet<Project> SelectAll();
     public Project SelectByName(string name);
     public Project SelectById(int id);
 }

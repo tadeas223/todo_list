@@ -9,7 +9,7 @@ public interface IBoardRepository
     public void Udate(Board board);
     public void Delete(Board board);
     
-    public HashSet<Board> SelectByName(Board board);
+    public HashSet<Board> SelectAll();
     public Board SelectByName(Board board);
     public Board SelectById(Board board);
 }
