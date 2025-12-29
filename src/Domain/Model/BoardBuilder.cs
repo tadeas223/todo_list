@@ -24,6 +24,7 @@ public class BoardBuilder
         set {project = value; }
     } 
 
+    public BoardBuilder() {}
     public BoardBuilder(int id)
     {
         this.id = id;

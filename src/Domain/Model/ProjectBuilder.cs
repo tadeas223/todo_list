@@ -26,6 +26,7 @@ public class ProjectBuilder
         set { locked= value; }
     } 
 
+    public ProjectBuilder() {}
     public ProjectBuilder(int id)
     {
         this.id = id;
@@ -60,7 +61,7 @@ public class ProjectBuilder
     {
         if(name == null || locked == null)
         {
-            throw new Exception("name must be set");
+            throw new Exception("name and locked must be set");
         }
         return new Project(this);
     }

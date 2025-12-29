@@ -23,12 +23,12 @@ public class OracleDBProjectRepository: IProjectRepository
 
         string sql = "INSERT INTO project (name, locked) VALUES (:name, :locked) RETURNING Id INTO :newId";
         connection.ExecuteNonQuery(sql, 
-            ("name", project.Name), 
-            ("locked", project.Locked),
-            ("newId", outId)
+            new OracleParameter("name", OracleDbType.Varchar2) { Value = project.Name }, 
+            new OracleParameter("locked",  OracleDbType.Int32) { Value = project.Locked? 1: 0},
+            outId
         );
 
-        int newId = Convert.ToInt32(outId.Value);
+        int newId = ((OracleDecimal)outId.Value).ToInt32();
 
         Project newProject = new ProjectBuilder(newId)
             .WithName(project.Name)
@@ -41,13 +41,27 @@ public class OracleDBProjectRepository: IProjectRepository
     public void Update(Project project)
     {
         string sql = "UPDATE project SET name = :name WHERE id = :id";
-        connection.ExecuteNonQuery(sql, ("id", project.Id), ("name", project.Name));
+
+        if(project.Id == null)
+        {
+            throw new ArgumentNullException("project does not have an id");
+        }
+        connection.ExecuteNonQuery(sql, 
+            new OracleParameter("id", OracleDbType.Int32) { Value = project.Id }, 
+            new OracleParameter("name", OracleDbType.Varchar2) { Value = project.Name }
+        );
     }
 
     public void Delete(Project project)
     {
         string sql = "DELETE FROM project WHERE id = :id";
-        connection.ExecuteNonQuery(sql, ("id", project.Id));
+        if(project.Id == null)
+        {
+            throw new ArgumentNullException("project does not have an id");
+        }
+        connection.ExecuteNonQuery(sql, 
+            new OracleParameter("id", OracleDbType.Int32) { Value = project.Id! }
+        );
     }
 
     public HashSet<Project> SelectAll()
@@ -58,9 +72,9 @@ public class OracleDBProjectRepository: IProjectRepository
         HashSet<Project> projects = new HashSet<Project>();
         foreach(DataRow row in data.Rows)
         {
-            int id = row.Field<int>("id");
+            int id = Convert.ToInt32(row["id"]);
             string? name = row.Field<string>("name");
-            bool locked = row.Field<bool>("locked");
+            bool locked = Convert.ToBoolean(row["locked"]);
 
             if(name == null) continue;
 
@@ -78,16 +92,18 @@ public class OracleDBProjectRepository: IProjectRepository
     public Project? SelectByName(string name)
     {
         string sql = "SELECT id, name, locked FROM project WHERE name = :name";
-        DataTable data = connection.ExecuteQuery(sql, ("name", name));
+        DataTable data = connection.ExecuteQuery(sql, 
+            new OracleParameter("name", OracleDbType.Varchar2) { Value = name }
+        );
 
         if(data.Rows.Count == 0)
         {
             return null;
         }
 
-        int id = data.Rows[0].Field<int>("id");
+        int id = Convert.ToInt32(data.Rows[0]["id"]);
         string? resultName = data.Rows[0].Field<string>("name");
-        bool locked = data.Rows[0].Field<bool>("locked");
+        bool locked = Convert.ToBoolean(data.Rows[0]["locked"]);
 
         if(resultName == null) return null;
         return new ProjectBuilder(id)
@@ -99,7 +115,9 @@ public class OracleDBProjectRepository: IProjectRepository
     public Project? SelectById(int id)
     {
         string sql = "SELECT id, name, locked FROM project WHERE id = :id";
-        DataTable data = connection.ExecuteQuery(sql, ("id", id));
+        DataTable data = connection.ExecuteQuery(sql, 
+            new OracleParameter("id", OracleDbType.Int32) { Value = id }
+        );
 
         if(data.Rows.Count == 0)
         {

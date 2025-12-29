@@ -8,8 +8,8 @@ public interface IDBConnection
     public bool Connected {get;}
     public void Connect(string username, string password, string datasource);
     public void Disconnect();
-    public DataTable ExecuteQuery(string sql, params(string, object)[] parameters);
-    public int ExecuteNonQuery(string sql, params(string, object)[] parameters);
+    public DataTable ExecuteQuery(string sql, params object[] parameters);
+    public int ExecuteNonQuery(string sql, params object[] parameters);
 
     public void Create(string sysUsername, string sysPassword, string datasource, string username, string password);
     public void Delete(string sysUsername, string sysPassword, string datasource, string username);

@@ -23,10 +23,16 @@ public class OracleDBCalendarRepository: ICalendarRepository
         };
 
         string sql = "INSERT INTO calendar (name, project_id) VALUES (:name, :project_id) RETURNING Id INTO :newId";
+
+        if(calendar.Project.Id == null)
+        {
+            throw new ArgumentNullException("calendar project does not have an id");
+        }
+
         connection.ExecuteNonQuery(sql, 
-            ("name", calendar.Name), 
-            ("project_id", calendar.Project.Id), 
-            ("newId", outId)
+            new OracleParameter("name", OracleDbType.Varchar2) { Value = calendar.Name }, 
+            new OracleParameter("project_id", OracleDbType.Int32) { Value = calendar.Project.Id }, 
+            outId
         );
 
         int newId = Convert.ToInt32(outId.Value);
@@ -47,29 +53,55 @@ public class OracleDBCalendarRepository: ICalendarRepository
         };
 
         string sql = "INSERT INTO calendar_task (calendar_id, task_id) VALUES (:calendar_id, :task_id) RETURNING Id INTO :newId";
+        
+        if(calendar.Id == null)
+        {
+            throw new ArgumentNullException("calendar does not have an id");
+        }
+        
+        if(task.Id == null)
+        {
+            throw new ArgumentNullException("task does not have an id");
+        }
+        
         connection.ExecuteNonQuery(sql,
-            ("calendar_id", calendar.Id),
-            ("task_id", task.Id),
-            ("newId", outId)
+            new OracleParameter("calendar_id", OracleDbType.Int32) { Value = calendar.Id },
+            new OracleParameter("task_id", OracleDbType.Int32) { Value = task.Id },
+            outId
         );
     }
 
     public void Update(Calendar calendar)
     {
         string sql = "UPDATE calendar SET name = :name WHERE id = :id";
+
+        if(calendar.Id == null)
+        {
+            throw new ArgumentNullException("calendar does not have an id");
+        }
+
         connection.ExecuteNonQuery(sql,
-            ("name", calendar.Name),
-            ("id", calendar.Id)
+            new OracleParameter("name", OracleDbType.Varchar2) { Value = calendar.Name },
+            new OracleParameter("id", OracleDbType.Int32) { Value = calendar.Id}
         );
     }
 
     public void Delete(Calendar calendar)
     {
+        if(calendar.Id == null)
+        {
+            throw new ArgumentNullException("calendar does not have an id");
+        }
+
         string sqlTasks = "DELETE FROM calendar_task WHERE calendar_id = :calendar_id";
-        connection.ExecuteNonQuery(sqlTasks, ("calendar_id", calendar.Id));
+        connection.ExecuteNonQuery(sqlTasks, 
+            new OracleParameter("calendar_id", OracleDbType.Int32) { Value = calendar.Id }
+        );
 
         string sql = "DELETE FROM calendar WHERE id = :id";
-        connection.ExecuteNonQuery(sql, ("id", calendar.Id));
+        connection.ExecuteNonQuery(sql, 
+            new OracleParameter("id", OracleDbType.Int32) { Value = calendar.Id }
+        );
     }
 
     public HashSet<Calendar> SelectAll()
@@ -94,7 +126,9 @@ public class OracleDBCalendarRepository: ICalendarRepository
     public Calendar? SelectByName(string name)
     {
         string sql = "SELECT id, name, project_id FROM calendar WHERE name = :name";
-        DataTable dt = connection.ExecuteQuery(sql, ("name", name));
+        DataTable dt = connection.ExecuteQuery(sql, 
+            new OracleParameter("name", OracleDbType.Varchar2) { Value = name }
+        );
         if (dt.Rows.Count == 0) return null;
         DataRow row = dt.Rows[0];
         string? newName = row.Field<string>("name");
@@ -110,7 +144,9 @@ public class OracleDBCalendarRepository: ICalendarRepository
     public Calendar? SelectById(int id)
     {
         string sql = "SELECT id, name, project_id FROM calendar WHERE id = :id";
-        DataTable dt = connection.ExecuteQuery(sql, ("id", id));
+        DataTable dt = connection.ExecuteQuery(sql, 
+            new OracleParameter("id", OracleDbType.Int32) { Value = id }
+        );
         if (dt.Rows.Count == 0) return null;
         DataRow row = dt.Rows[0];
 
@@ -132,7 +168,15 @@ public class OracleDBCalendarRepository: ICalendarRepository
             WHERE ct.calendar_id = :calendar_id;
         """;
 
-        DataTable dt = connection.ExecuteQuery(sql, ("calendar_id", calendar.Id));
+        if(calendar.Id == null)
+        {
+            throw new ArgumentNullException("calendar does not have an id");
+        }
+
+        DataTable dt = connection.ExecuteQuery(sql, 
+            new OracleParameter("calendar_id", OracleDbType.Int32) { Value = calendar.Id }
+        );
+
         var tasks = new HashSet<TodoTask>();
 
         foreach (DataRow row in dt.Rows)

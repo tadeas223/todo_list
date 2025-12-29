@@ -47,6 +47,7 @@ public class TodoTaskBuilder
         set { board = value; }
     }
 
+    public TodoTaskBuilder() {}
     public TodoTaskBuilder(int id)
     {
         this.id = id;
@@ -96,6 +97,12 @@ public class TodoTaskBuilder
     public TodoTaskBuilder WithBoard(Board board)
     {
         Board = board;
+        return this;
+    }
+
+    public TodoTaskBuilder WithId(int id)
+    {
+        Id = id;
         return this;
     }
 

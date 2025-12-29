@@ -2,11 +2,16 @@ namespace Domain.Model;
 
 public class CalendarBuilder
 {
-    private int id;
+    private int? id;
     private string? name;
     private Project? project;
 
-    public int Id => id;
+    public int? Id
+    {
+        get { return id; }
+        set { id = value; }
+    }
+
     public string? Name
     {
         get { return name; }
@@ -18,9 +23,10 @@ public class CalendarBuilder
         set { project = value; }
     }
 
+    public CalendarBuilder() {}
     public CalendarBuilder(int id)
     {
-        this.id = id;
+        this.id = (int?)id;
     }
 
     public CalendarBuilder(Calendar original)
@@ -41,6 +47,14 @@ public class CalendarBuilder
         Project = project;
         return this;
     }
+    
+    public CalendarBuilder WithId(int id)
+    {
+        Id = id;
+        return this;
+    }
+
+
 
     public Calendar Build()
     {

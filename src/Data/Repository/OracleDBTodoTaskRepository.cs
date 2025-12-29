@@ -27,19 +27,24 @@ class OracleDBTodoTaskRepository: ITodoTaskRepository
         };
 
         string sql = """
-            INSERT INTO task (name, desc, state, progress, finish_date, board_id) 
+            INSERT INTO task (name, task_desc, state, progress, finish_date, board_id) 
             VALUES (:name, :desc, :state, :progress, :finish_date, :board_id)
              RETURNING Id INTO :newId;
         """;
 
+        if(task.Board.Id == null)
+        {
+            throw new ArgumentNullException("task board does not have an id");
+        }
+
         connection.ExecuteNonQuery(sql, 
-            ("name", task.Name), 
-            ("desc", task.Desc),
-            ("state", task.State.ToString().ToLower()),
-            ("progress", task.Progress),
-            ("finish_date", task.FinishDate),
-            ("board_id", task.Board.Id),
-            ("newId", outId)
+            new OracleParameter("name", OracleDbType.Varchar2) { Value = task.Name }, 
+            new OracleParameter("task_desc", OracleDbType.Varchar2) { Value = task.Desc },
+            new OracleParameter("state", OracleDbType.Varchar2) { Value = task.State.ToString().ToLower() },
+            new OracleParameter("progress", OracleDbType.Decimal) { Value = task.Progress },
+            new OracleParameter("finish_date", OracleDbType.Date) { Value = task.FinishDate },
+            new OracleParameter("board_id", OracleDbType.Int32) { Value = task.Board.Id },
+            outId
         );
 
         int newId = Convert.ToInt32(outId.Value);
@@ -60,7 +65,7 @@ class OracleDBTodoTaskRepository: ITodoTaskRepository
         string sql = """
             UPDATE task SET 
                 name = :name 
-                desc = :desc
+                task_desc = :desc
                 state = :state
                 progress = :progress
                 finish_date = :finish_date
@@ -68,20 +73,33 @@ class OracleDBTodoTaskRepository: ITodoTaskRepository
             WHERE id = :id
         """;
 
+        if(task.Board.Id == null)
+        {
+            throw new ArgumentNullException("task board does not have an id");
+        }
+
         connection.ExecuteNonQuery(sql, 
-            ("name", task.Name), 
-            ("desc", task.Desc),
-            ("state", task.State.ToString().ToLower()),
-            ("progress", task.Progress),
-            ("finish_date", task.FinishDate),
-            ("board_id", task.Board.Id)
+            new OracleParameter("name", OracleDbType.Varchar2) { Value = task.Name }, 
+            new OracleParameter("task_desc", OracleDbType.Varchar2) { Value = task.Desc },
+            new OracleParameter("state", OracleDbType.Varchar2) { Value = task.State.ToString().ToLower() },
+            new OracleParameter("progress", OracleDbType.Decimal) { Value = task.Progress },
+            new OracleParameter("finish_date", OracleDbType.Date) { Value = task.FinishDate },
+            new OracleParameter("board_id", OracleDbType.Int32) { Value = task.Board.Id }
         );
     }
 
     public void Delete(TodoTask task)
     {
         string sql = "DELETE FROM task WHERE id = :id";
-        connection.ExecuteNonQuery(sql, ("id", task.Id));
+
+        if(task.Id == null)
+        {
+            throw new ArgumentNullException("task does not have an id");
+        }
+
+        connection.ExecuteNonQuery(sql, 
+            new OracleParameter("id", OracleDbType.Int32) { Value = task.Id }
+        );
     }
     
     public HashSet<TodoTask> SelectAll()
@@ -94,7 +112,7 @@ class OracleDBTodoTaskRepository: ITodoTaskRepository
         {
             int id = row.Field<int>("id");
             string? name = row.Field<string>("name");
-            string? desc = row.Field<string>("desc");
+            string? desc = row.Field<string>("task_desc");
             string? state = row.Field<string>("state");
             float progress = row.Field<float>("progress");
             DateTime finish_date = row.Field<DateTime>("finish_date");
@@ -143,7 +161,9 @@ class OracleDBTodoTaskRepository: ITodoTaskRepository
     public TodoTask? SelectById(int id)
     {
         string sql = "SELECT * FROM task WHERE id = :id";
-        DataTable data = connection.ExecuteQuery(sql, ("id", id));
+        DataTable data = connection.ExecuteQuery(sql, 
+            new OracleParameter("id", OracleDbType.Int32) { Value = id }
+        );
 
         if(data.Rows.Count == 0)
         {
@@ -154,7 +174,7 @@ class OracleDBTodoTaskRepository: ITodoTaskRepository
 
         int newId = row.Field<int>("id");
         string? name = row.Field<string>("name");
-        string? desc = row.Field<string>("desc");
+        string? desc = row.Field<string>("task_desc");
         string? state = row.Field<string>("state");
         float progress = row.Field<float>("progress");
         DateTime finish_date = row.Field<DateTime>("finish_date");

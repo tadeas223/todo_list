@@ -20,11 +20,16 @@ class OracleDBBoardRepository: IBoardRepository
             Direction = ParameterDirection.Output
         };
 
+        if(board.Project.Id == null)
+        {
+            throw new ArgumentNullException("board project does not have an id");
+        }
+
         string sql = "INSERT INTO board (name, project_id) VALUES (:name, :project_id) RETURNING Id INTO :newId";
         connection.ExecuteNonQuery(sql, 
-            ("name", board.Name), 
-            ("project_id", board.Project.Id), 
-            ("newId", outId)
+            new OracleParameter("name", OracleDbType.Varchar2) { Value = board.Name }, 
+            new OracleParameter("project_id", OracleDbType.Int32) { Value = board.Project.Id }, 
+            outId
         );
 
         int newId = Convert.ToInt32(outId.Value);
@@ -38,17 +43,34 @@ class OracleDBBoardRepository: IBoardRepository
     public void Update(Board board)
     {
         string sql = "UPDATE board SET name = :name, project_id = :project_id WHERE id = :id";
+        
+        if(board.Project.Id == null)
+        {
+            throw new ArgumentNullException("board project does not have an id");
+        }
+        
+        if(board.Id == null)
+        {
+            throw new ArgumentNullException("board does not have an id");
+        }
+
         connection.ExecuteNonQuery(sql,
-            ("name", board.Name),
-            ("project_id", board.Project.Id),
-            ("id", board.Id)
+            new OracleParameter("name", OracleDbType.Varchar2) { Value = board.Name },
+            new OracleParameter("project_id", OracleDbType.Int32) { Value = board.Project.Id },
+            new OracleParameter("id", OracleDbType.Int32) { Value = board.Id }
         );
     }
 
     public void Delete(Board board)
     {
         string sql = "DELETE FROM board WHERE id = :id";
-        connection.ExecuteNonQuery(sql, ("id", board.Id));
+        if(board.Id == null)
+        {
+            throw new ArgumentNullException("board does not have an id");
+        }
+        connection.ExecuteNonQuery(sql, 
+            new OracleParameter("id", OracleDbType.Int32) { Value = board.Id }
+        );
     }
 
     public HashSet<Board> SelectAll()
@@ -75,7 +97,9 @@ class OracleDBBoardRepository: IBoardRepository
     public Board? SelectById(int id)
     {
         string sql = "SELECT id, name, project_id FROM board WHERE id = :id";
-        DataTable dt = connection.ExecuteQuery(sql, ("id", id));
+        DataTable dt = connection.ExecuteQuery(sql, 
+            new OracleParameter("id", OracleDbType.Int32) { Value = id }
+        );
         if (dt.Rows.Count == 0) return null;
 
         DataRow row = dt.Rows[0];
