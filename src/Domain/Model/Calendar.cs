@@ -2,11 +2,11 @@ namespace Domain.Model;
 
 public class Calendar
 {
-    private int id;
+    private int? id;
     private string name;
     private Project project;
     
-    public int Id => id;
+    public int? Id => id;
     public string Name => name;
 
     public Project Project => project;

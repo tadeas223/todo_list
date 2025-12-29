@@ -2,7 +2,7 @@ namespace Domain.Model;
 
 public class TodoTask
 {
-    private int id;
+    private int? id;
     private string name;
     private string desc;
     private TaskState state;
@@ -10,7 +10,7 @@ public class TodoTask
     private DateTime finishDate;
     private Board board;
 
-    public int Id => id;
+    public int? Id => id;
     public string Name => name;
     public string Desc => desc;
     public TaskState State => state;

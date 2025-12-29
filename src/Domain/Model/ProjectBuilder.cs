@@ -1,20 +1,26 @@
+using System.ComponentModel;
+
 namespace Domain.Model;
 
 public class ProjectBuilder
 {
-    private int id;
-    private string name;
+    private int? id;
+    private string? name;
 
-    private bool locked;
+    private bool? locked;
 
-    public int Id => id;
-    public string Name
+    public int? Id 
+    {
+        get { return id; }
+        set { id = value; }
+    } 
+    public string? Name
     {
         get { return name; }
         set { name = value; }
     } 
 
-    public bool Locked
+    public bool? Locked
     {
         get { return locked; }
         set { locked= value; }
@@ -23,8 +29,6 @@ public class ProjectBuilder
     public ProjectBuilder(int id)
     {
         this.id = id;
-        name = "";
-        locked = false;
     }
 
     public ProjectBuilder(Project original)
@@ -45,9 +49,19 @@ public class ProjectBuilder
         Locked = locked;
         return this;
     }
+    
+    public ProjectBuilder WithId(int id)
+    {
+        Id = id;
+        return this;
+    }
 
     public Project Build()
     {
+        if(name == null || locked == null)
+        {
+            throw new Exception("name must be set");
+        }
         return new Project(this);
     }
 
