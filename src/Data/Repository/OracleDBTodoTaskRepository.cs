@@ -7,6 +7,7 @@ using System.ComponentModel;
 using System.Data.Common;
 using System.Data;
 using Oracle.ManagedDataAccess.Client;
+using Oracle.ManagedDataAccess.Types;
 
 class OracleDBTodoTaskRepository: ITodoTaskRepository
 {
@@ -47,7 +48,7 @@ class OracleDBTodoTaskRepository: ITodoTaskRepository
             outId
         );
 
-        int newId = Convert.ToInt32(outId.Value);
+        int newId = ((OracleDecimal)outId.Value).ToInt32();
 
         TodoTask newTask = new TodoTaskBuilder(newId)
             .WithBoard(task.Board)
@@ -110,12 +111,12 @@ class OracleDBTodoTaskRepository: ITodoTaskRepository
         HashSet<TodoTask> tasks = new HashSet<TodoTask>();
         foreach(DataRow row in data.Rows)
         {
-            int id = row.Field<int>("id");
+            int id = Convert.ToInt32(row["id"]);
             string? name = row.Field<string>("name");
             string? desc = row.Field<string>("task_desc");
             string? state = row.Field<string>("state");
-            float progress = row.Field<float>("progress");
-            DateTime finish_date = row.Field<DateTime>("finish_date");
+            float progress = (float)Convert.ToDouble(row["progress"]);
+            DateTime finish_date = Convert.ToDateTime(row["finish_date"]);
 
             if(name == null
                 || desc == null
@@ -172,12 +173,12 @@ class OracleDBTodoTaskRepository: ITodoTaskRepository
 
         var row = data.Rows[0];
 
-        int newId = row.Field<int>("id");
-        string? name = row.Field<string>("name");
-        string? desc = row.Field<string>("task_desc");
-        string? state = row.Field<string>("state");
-        float progress = row.Field<float>("progress");
-        DateTime finish_date = row.Field<DateTime>("finish_date");
+            int newId = Convert.ToInt32(row["id"]);
+            string? name = row.Field<string>("name");
+            string? desc = row.Field<string>("task_desc");
+            string? state = row.Field<string>("state");
+            float progress = (float)Convert.ToDouble(row["progress"]);
+            DateTime finish_date = Convert.ToDateTime(row["finish_date"]);
 
         if(name == null
             || desc == null
@@ -205,10 +206,10 @@ class OracleDBTodoTaskRepository: ITodoTaskRepository
                 break;
         }
         
-        var board = boardRepository.SelectById(id);
+        var board = boardRepository.SelectById(newId);
         if(board == null) return null; 
         
-        return new TodoTaskBuilder(id)
+        return new TodoTaskBuilder(newId)
             .WithBoard(board)
             .WithName(name)
             .WithDesc(desc)

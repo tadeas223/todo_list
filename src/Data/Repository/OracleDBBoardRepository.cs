@@ -32,7 +32,7 @@ class OracleDBBoardRepository: IBoardRepository
             outId
         );
 
-        int newId = Convert.ToInt32(outId.Value);
+        int newId = ((OracleDecimal)outId.Value);
 
         board = new BoardBuilder(newId)
             .WithName(board.Name)
