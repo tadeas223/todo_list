@@ -9,17 +9,17 @@ classDiagram
     class Project
     class Board
     class Calendar
-    class Task
+    class TodoTask
     
     class ProjectBuilder
     class BoardBuilder
     class CalendarBuilder
-    class TaskBuilder
+    class TodoTaskBuilder
 
-    ProjectBuilder -- Project
-    TaskBuilder   -- Task
-    BoardBuilder   -- Board
-    CalendarBuilder   -- Calendar
+    ProjectBuilder  -- Project
+    TodoTaskBuilder     -- TodoTask
+    BoardBuilder    -- Board
+    CalendarBuilder -- Calendar
     
     note "All models are read only. <br>Changining the models is done through their builder classes."
     
@@ -64,7 +64,7 @@ classDiagram
         +Calendar(builder: CalendarBuilder)
     }
 
-    class Task {
+    class TodoTask {
         -id: int
         -name: string
         -desc: string
@@ -79,7 +79,7 @@ classDiagram
         +«get» Progress: float
         +«get» FinishDate: DateTime
 
-        +Task(builder: TaskBuilder)
+        +TodoTask(builder: TodoTaskBuilder)
     }
 
     class ProjectBuilder {
@@ -124,7 +124,7 @@ classDiagram
         +Build() Calendar
     }
 
-    class TaskBuilder {
+    class TodoTaskBuilder {
         -id: int
         -name: string
         -desc: string
@@ -139,14 +139,14 @@ classDiagram
         +«get/set» Progress: float
         +«get/set» FinishDate: DateTime
 
-        +TaskBuilder(id: int)
-        +TaskBuilder(original: Task)
-        +WithName(name: string) TaskBuilder
-        +WithDesc(dest: string) TaskBuilder
-        +WithState(state: TaskState) TaskBuilder
-        +WithProgress(progress: float) TaskBuilder
-        +WithFinishDate(date: Date) TaskBuilder
-        +Build() Task 
+        +TodoTaskBuilder(id: int)
+        +TodoTaskBuilder(original: TodoTask)
+        +WithName(name: string) TodoTaskBuilder
+        +WithDesc(dest: string) TodoTaskBuilder
+        +WithState(state: TaskState) TodoTaskBuilder
+        +WithProgress(progress: float) TodoTaskBuilder
+        +WithFinishDate(date: Date) TodoTaskBuilder
+        +Build() TodoTask 
     }
 
 ```

@@ -9,7 +9,7 @@ classDiagram
     class IProjectRepository
     class IBoardRepository
     class ICalendarRepository
-    class ITaskRepository
+    class ITodoTaskRepository
 
     note "insert methods act like update if the model already exists"
 
@@ -26,6 +26,7 @@ classDiagram
         +Update(project: Project)
         +Delete(project: Project)
 
+        +SelectAll() Set~Project~
         +SelectByName(name: string) Project
         +SelectById(id: int) Project
     }
@@ -35,6 +36,7 @@ classDiagram
         +Update(board: Board)
         +Delete(board: Board)
 
+        +SelectAll() Set~Board~
         +SelectByName(name: string) Board
         +SelectById(id: int) Board
     }
@@ -46,22 +48,24 @@ classDiagram
         +Update(calendar: Calendar)
         +Delete(calendar: Calendar)
 
+        +SelectAll() Set~Calendar~
         +SelectByName(name: string) Calendar
         +SelectById(id: int) Calendar
 
-        +SelectCalendarTasks(calendar: Calendar) Set~Task~
-        +SelectCalendarTasksByDate(calendar: Calendar, date: DateTime) Set~Task~
+        +SelectAllCalendarTasks(calendar: Calendar) Set~TodoTask~
+        +SelectCalendarTasksByDate(calendar: Calendar, date: DateTime) Set~TodoTask~
     }
     
-    class ITaskRepository {
-        +Insert(task: Task)
-        +Update(task: Task)
-        +Delete(task: Task)
+    class ITodoTaskRepository {
+        +Insert(task: TodoTask)
+        +Update(task: TodoTask)
+        +Delete(task: TodoTask)
 
-        +SelectByName(name: string) Task
-        +SelectById(id: int) Task
-        +SelectByState(state: TaskState) Set~Task~
-        +SelectByFinishDate(date: Date) Set~Task~
+        +SelectAll() Set~TodoTask~
+        +SelectByName(name: string) TodoTask
+        +SelectById(id: int) TodoTask
+        +SelectByState(state: TaskState) Set~TodoTask~
+        +SelectByFinishDate(date: Date) Set~TodoTask~
     }
 
 ```

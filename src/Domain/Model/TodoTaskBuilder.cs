@@ -1,6 +1,6 @@
 namespace Domain.Model;
 
-public class TaskBuilder
+public class TodoTaskBuilder
 {
     private int id;
     private string name;
@@ -41,7 +41,7 @@ public class TaskBuilder
         set { finishDate = value; }
     }
 
-    public TaskBuilder(int id)
+    public TodoTaskBuilder(int id)
     {
         this.id = id;
         name = "";
@@ -51,7 +51,7 @@ public class TaskBuilder
         finishDate = DateTime.Now;
     }
 
-    public TaskBuilder(Task original)
+    public TodoTaskBuilder(TodoTask original)
     {
         id = original.Id;
         name = original.Name;
@@ -61,38 +61,38 @@ public class TaskBuilder
         finishDate = original.FinishDate;
     }
 
-    public TaskBuilder WithName(string name)
+    public TodoTaskBuilder WithName(string name)
     {
         Name = name;
         return this;
     }
     
-    public TaskBuilder WithDesc(string desc)
+    public TodoTaskBuilder WithDesc(string desc)
     {
         Desc = desc;
         return this;
     }
     
-    public TaskBuilder WithState(TaskState state)
+    public TodoTaskBuilder WithState(TaskState state)
     {
         State = state;
         return this;
     }
 
-    public TaskBuilder WithProgress(float progress)
+    public TodoTaskBuilder WithProgress(float progress)
     {
         Progress = progress;
         return this;
     }
 
-    public TaskBuilder WithFinishDate(DateTime finishDate)
+    public TodoTaskBuilder WithFinishDate(DateTime finishDate)
     {
         FinishDate = finishDate;
         return this;
     }
 
-    public Task Build()
+    public TodoTask Build()
     {
-        return new Task(this);
+        return new TodoTask(this);
     }
 }

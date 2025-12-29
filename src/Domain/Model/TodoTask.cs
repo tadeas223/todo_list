@@ -1,6 +1,6 @@
 namespace Domain.Model;
 
-public class Task
+public class TodoTask
 {
     private int id;
     private string name;
@@ -16,7 +16,7 @@ public class Task
     public float Progress => progress;
     public DateTime FinishDate => finishDate;
 
-    public Task(TaskBuilder builder)
+    public TodoTask(TodoTaskBuilder builder)
     {
         this.id = builder.Id;
         this.name = builder.Name;
