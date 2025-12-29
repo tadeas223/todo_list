@@ -1,0 +1,56 @@
+using System.Diagnostics.Contracts;
+
+namespace Domain.Model;
+
+class ProjectBuilder
+{
+    private int id;
+    private string name;
+
+    private bool locked;
+
+    public int Id => id;
+    public string Name
+    {
+        get { return name; }
+        set { name = value; }
+    } 
+
+    public bool Locked
+    {
+        get { return locked; }
+        set { locked= value; }
+    } 
+
+    public ProjectBuilder(int id)
+    {
+        this.id = id;
+        name = "";
+        locked = false;
+    }
+
+    public ProjectBuilder(Project original)
+    {
+        id = original.Id;
+        name = original.Name;
+        locked = original.Locked;
+    }
+
+    public ProjectBuilder withName(string name)
+    {
+        Name = name;
+        return this;
+    }
+    
+    public ProjectBuilder withLocked(bool locked)
+    {
+        Locked = locked;
+        return this;
+    }
+
+    public Project build()
+    {
+        return new Project(this);
+    }
+
+}

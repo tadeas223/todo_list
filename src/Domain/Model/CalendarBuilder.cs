@@ -1,0 +1,37 @@
+namespace Domain.Model;
+
+class CalendarBuilder
+{
+    private int id;
+    private string name;
+
+    public int Id => id;
+    public string Name
+    {
+        get { return name; }
+        set { name = value; }
+    }
+
+    public CalendarBuilder(int id)
+    {
+        this.id = id;
+        name = "";
+    }
+
+    public CalendarBuilder(Calendar original)
+    {
+        id = original.Id;
+        name = original.Name;
+    }
+
+    public CalendarBuilder withName(string name)
+    {
+        Name = name;
+        return this;
+    }
+
+    public Calendar build()
+    {
+        return new Calendar(this);
+    }
+}
