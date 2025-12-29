@@ -61,37 +61,37 @@ class TaskBuilder
         finishDate = original.FinishDate;
     }
 
-    public TaskBuilder withName(string name)
+    public TaskBuilder WithName(string name)
     {
         Name = name;
         return this;
     }
     
-    public TaskBuilder withDesc(string desc)
+    public TaskBuilder WithDesc(string desc)
     {
         Desc = desc;
         return this;
     }
     
-    public TaskBuilder withState(TaskState state)
+    public TaskBuilder WithState(TaskState state)
     {
         State = state;
         return this;
     }
 
-    public TaskBuilder withProgress(float progress)
+    public TaskBuilder WithProgress(float progress)
     {
         Progress = progress;
         return this;
     }
 
-    public TaskBuilder withFinishDate(FinishDate finishDate)
+    public TaskBuilder WithFinishDate(DateTime finishDate)
     {
         FinishDate = finishDate;
         return this;
     }
 
-    public Task build()
+    public Task Build()
     {
         return new Task(this);
     }

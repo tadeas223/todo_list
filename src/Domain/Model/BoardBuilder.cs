@@ -25,13 +25,13 @@ class BoardBuilder
         name = original.Name;
     }
 
-    public BoardBuilder withName(string name)
+    public BoardBuilder WithName(string name)
     {
         Name = name;
         return this;
     }
 
-    public Board build()
+    public Board Build()
     {
         return new Board(this);
     }

@@ -24,13 +24,13 @@ class CalendarBuilder
         name = original.Name;
     }
 
-    public CalendarBuilder withName(string name)
+    public CalendarBuilder WithName(string name)
     {
         Name = name;
         return this;
     }
 
-    public Calendar build()
+    public Calendar Build()
     {
         return new Calendar(this);
     }

@@ -6,11 +6,11 @@ classDiagram
     class Provider {
         - implementation of IDBConnection        
 
-        +provideDBConnection(): IDBConnection
-        +provideProjectRepository(): IProjectRepository
-        +provideBoardRepository(): IBoardRepository
-        +provideCalendarRepository(): ICalendarRepository
-        +provideTaskRepository(): ITaskRepository
+        +ProvideDBConnection(): IDBConnection
+        +ProvideProjectRepository(): IProjectRepository
+        +ProvideBoardRepository(): IBoardRepository
+        +ProvideCalendarRepository(): ICalendarRepository
+        +ProvideTaskRepository(): ITaskRepository
     }
 
 ```

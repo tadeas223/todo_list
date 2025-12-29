@@ -107,8 +107,8 @@ classDiagram
 
         +BoardBuilder(id: int)
         +BoardBuilder(original: Board)
-        +withName(name: string) BoardBuilder
-        +build() Board
+        +WithName(name: string) BoardBuilder
+        +Build() Board
     }
 
     class CalendarBuilder {
@@ -120,8 +120,8 @@ classDiagram
 
         +CalendarBuilder(id: int)
         +CalendarBuilder(original: Calendar)
-        +withName(name: string) CalendarBuilder
-        +build() Calendar
+        +WithName(name: string) CalendarBuilder
+        +Build() Calendar
     }
 
     class TaskBuilder {
@@ -141,12 +141,12 @@ classDiagram
 
         +TaskBuilder(id: int)
         +TaskBuilder(original: Task)
-        +withName(name: string) TaskBuilder
-        +withDesc(dest: string) TaskBuilder
-        +withState(state: TaskState) TaskBuilder
-        +withProgress(progress: float) TaskBuilder
-        +withFinishDate(date: Date) TaskBuilder
-        +build() Task 
+        +WithName(name: string) TaskBuilder
+        +WithDesc(dest: string) TaskBuilder
+        +WithState(state: TaskState) TaskBuilder
+        +WithProgress(progress: float) TaskBuilder
+        +WithFinishDate(date: Date) TaskBuilder
+        +Build() Task 
     }
 
 ```

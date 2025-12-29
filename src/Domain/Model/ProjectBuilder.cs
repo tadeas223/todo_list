@@ -36,19 +36,19 @@ class ProjectBuilder
         locked = original.Locked;
     }
 
-    public ProjectBuilder withName(string name)
+    public ProjectBuilder WithName(string name)
     {
         Name = name;
         return this;
     }
     
-    public ProjectBuilder withLocked(bool locked)
+    public ProjectBuilder WithLocked(bool locked)
     {
         Locked = locked;
         return this;
     }
 
-    public Project build()
+    public Project Build()
     {
         return new Project(this);
     }
