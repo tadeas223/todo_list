@@ -1,16 +1,16 @@
-using System.Globalization;
+using Domain.Model;
 
 namespace Domain.Repository;
 
 public interface ICalendarRepository
 {
-    public void Insert(Calendar calendar);
+    public void Insert(ref Calendar calendar);
+    public void InsertTask(Calendar calendar, TodoTask task);
     public void Update(Calendar calendar);
     public void Delete(Calendar calendar);
 
     public HashSet<Calendar> SelectAll();
     public Calendar? SelectByName(string name);
     public Calendar? SelectById(int id);
-    public Calendar? SelectCalendarTasks(string name);
-    public Calendar? SelectCalendarTasksByDate(Calendar calendar, DateTime date);
+    public HashSet<TodoTask> SelectCalendarTasks(Calendar calendar);
 }

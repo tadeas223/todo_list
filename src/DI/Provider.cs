@@ -7,8 +7,8 @@ public class Provider
 {
     private IDBConnection dbConnection = new OracleDBConnection();
 
-    private Provider? instance;
-    public Provider Instance
+    private static Provider? instance;
+    public static Provider Instance
     {
         get
         {
@@ -29,21 +29,21 @@ public class Provider
 
     public IProjectRepository ProvideProjectRepository()
     {
-
+        return new OracleDBProjectRepository(dbConnection);
     }
 
     public IBoardRepository ProvideBoardRepository()
     {
-
+        return new OracleDBBoardRepository(dbConnection);
     }
     
     public ICalendarRepository ProvideCalendarRepository()
     {
-
+        return new OracleDBCalendarRepository(dbConnection);
     }
    
     public ITodoTaskRepository ProvideTodoTaskRepository()
     {
-
+        return new OracleDBTodoTaskRepository(dbConnection);
     }
 }

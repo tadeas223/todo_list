@@ -4,7 +4,7 @@ namespace Domain.Repository;
 
 public interface IProjectRepository
 {
-    public void Insert(Project project);
+    public void Insert(ref Project project);
     public void Update(Project project);
     public void Delete(Project project);
 

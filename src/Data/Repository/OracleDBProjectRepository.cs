@@ -3,27 +3,39 @@ namespace Data.Repository;
 using System.Data;
 using Domain.Model;
 using Domain.Repository;
+using Oracle.ManagedDataAccess.Client;
+using Oracle.ManagedDataAccess.Types;
 
 public class OracleDBProjectRepository: IProjectRepository
 {
-    private OracleDBConnection connection;
-    OracleDBProjectRepository(OracleDBConnection connection)
+    private IDBConnection connection;
+    public OracleDBProjectRepository(IDBConnection connection)
     {
         this.connection = connection;
     }
 
-    public void Insert(Project project)
+    public void Insert(ref Project project)
     {
-        string selectSql = "SELECT id FROM project WHERE id = :id";
-        DataTable selectData = connection.ExecuteQuery(selectSql, ("id", project.Id));
-        if(selectData.Rows.Count != 0)
+        var outId =  new OracleParameter("newId", OracleDbType.Int32)
         {
-            Update(project);
-            return;
-        }
+            Direction = ParameterDirection.Output
+        };
 
-        string sql = "INSERT INTO project (id, name, locked) VALUES (:id, :name, :locked)";
-        connection.ExecuteNonQuery(sql, ("id", project.Id), ("name", project.Name));
+        string sql = "INSERT INTO project (name, locked) VALUES (:name, :locked) RETURNING Id INTO :newId";
+        connection.ExecuteNonQuery(sql, 
+            ("name", project.Name), 
+            ("locked", project.Locked),
+            ("newId", outId)
+        );
+
+        int newId = Convert.ToInt32(outId.Value);
+
+        Project newProject = new ProjectBuilder(newId)
+            .WithName(project.Name)
+            .WithLocked(project.Locked)
+            .Build();
+
+        project = newProject;
     }
 
     public void Update(Project project)
@@ -34,7 +46,6 @@ public class OracleDBProjectRepository: IProjectRepository
 
     public void Delete(Project project)
     {
-
         string sql = "DELETE FROM project WHERE id = :id";
         connection.ExecuteNonQuery(sql, ("id", project.Id));
     }

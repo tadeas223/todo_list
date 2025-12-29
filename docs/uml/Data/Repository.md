@@ -12,6 +12,7 @@ direction TB
     class OracleDBCalendarRepository
     class OracleDBTodoTaskRepository
     
+    OracleDBConnection --() Domain.Repository.IDBCoonection
     OracleDBProjectRepository --() Domain.Repository.IProjectRepository
     OracleDBBoardRepository --() Domain.Repository.IBoardRepository
     OracleDBCalendarRepository --() Domain.Repository.ICalendarRepository

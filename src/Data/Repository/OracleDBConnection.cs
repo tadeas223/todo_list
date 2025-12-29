@@ -5,7 +5,7 @@ using Domain.Repository;
 
 namespace Data.Repository;
 
-class OracleDBConnection : IDBConnection
+public class OracleDBConnection : IDBConnection
 {
     private OracleConnection? connection;
     public bool Connected => connection != null && connection.State == ConnectionState.Open;
@@ -64,5 +64,36 @@ class OracleDBConnection : IDBConnection
         }
 
         return cmd.ExecuteNonQuery();
+    }
+    
+    public void Create(string sysUsername, string sysPassword, string datasource, string schema, string password)
+    {
+        string sysConnString = $"User Id={sysUsername};Password={sysPassword};Data Source={datasource}";
+        using var connection = new OracleConnection(sysConnString);
+        connection.Open();
+
+        using var cmd = connection.CreateCommand();
+
+        cmd.CommandText = $"CREATE USER {schema} IDENTIFIED BY {password}";
+        cmd.ExecuteNonQuery();
+
+        cmd.CommandText = $"GRANT CONNECT, RESOURCE TO {schema}";
+        cmd.ExecuteNonQuery();
+
+        connection.Close();
+    }
+
+    public void Delete(string sysUsername, string sysPassword, string datasource, string schema)
+    {
+        string sysConnString = $"User Id={sysUsername};Password={sysPassword};Data Source={datasource}";
+        using var connection = new OracleConnection(sysConnString);
+        connection.Open();
+
+        using var cmd = connection.CreateCommand();
+
+        cmd.CommandText = $"DROP USER {schema}";
+        cmd.ExecuteNonQuery();
+
+        connection.Close();
     }
 }

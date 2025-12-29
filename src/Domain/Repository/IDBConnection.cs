@@ -10,4 +10,7 @@ public interface IDBConnection
     public void Disconnect();
     public DataTable ExecuteQuery(string sql, params(string, object)[] parameters);
     public int ExecuteNonQuery(string sql, params(string, object)[] parameters);
+
+    public void Create(string sysUsername, string sysPassword, string datasource, string username, string password);
+    public void Delete(string sysUsername, string sysPassword, string datasource, string username);
 }
