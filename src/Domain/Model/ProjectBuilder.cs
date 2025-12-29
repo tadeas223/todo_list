@@ -1,8 +1,6 @@
-using System.Diagnostics.Contracts;
-
 namespace Domain.Model;
 
-class ProjectBuilder
+public class ProjectBuilder
 {
     private int id;
     private string name;

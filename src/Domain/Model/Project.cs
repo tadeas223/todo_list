@@ -1,6 +1,6 @@
 namespace Domain.Model;
 
-class Project
+public class Project
 {
     private int id;
     private string name;

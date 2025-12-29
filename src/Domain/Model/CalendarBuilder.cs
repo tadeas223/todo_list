@@ -1,6 +1,6 @@
 namespace Domain.Model;
 
-class CalendarBuilder
+public class CalendarBuilder
 {
     private int id;
     private string name;

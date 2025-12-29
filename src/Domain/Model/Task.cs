@@ -1,6 +1,6 @@
 namespace Domain.Model;
 
-class Task
+public class Task
 {
     private int id;
     private string name;

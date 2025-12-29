@@ -1,6 +1,6 @@
 namespace Domain.Model;
 
-class BoardBuilder
+public class BoardBuilder
 {
     private int id;
     private string name;

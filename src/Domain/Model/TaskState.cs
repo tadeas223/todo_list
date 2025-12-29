@@ -1,6 +1,6 @@
 namespace Domain.Model;
 
-enum TaskState
+public enum TaskState
 {
     DOING,
     DONE,

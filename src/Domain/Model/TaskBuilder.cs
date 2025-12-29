@@ -1,6 +1,6 @@
 namespace Domain.Model;
 
-class TaskBuilder
+public class TaskBuilder
 {
     private int id;
     private string name;
