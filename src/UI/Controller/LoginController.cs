@@ -29,6 +29,7 @@ public class LoginController : IController
                 main.StartUI("error", "missing fields", () => {
                     main.StartUI("login");
                 });
+                return;
             }
 
             try
@@ -36,15 +37,19 @@ public class LoginController : IController
                 Provider.Instance.ProvideDBConnection().Connect(username!, password!, url!);
 
                 main.StartUI("project_selection");
+                return;
             }
             catch(Exception ex)
             {
                 main.StartUI("error", ex.Message, () => {
                     main.StartUI("login");
                 });
+                return;
             }
             
         };
+
+        view.DbSetupButton.Click += (sender, e) => main.StartUI("database_setup");
 
         main.Content = view;
     }

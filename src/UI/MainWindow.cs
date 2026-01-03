@@ -27,6 +27,9 @@ public class MainWindow : Window
             case "error":
                 controller = new ErrorController(this);
                 break;
+            case "database_setup":
+                controller = new DatabaseSetupController(this);
+                break;
             case "project_selection":
                 controller = new ProjectSelectionController(this);
                 break;

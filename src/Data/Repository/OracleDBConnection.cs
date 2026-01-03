@@ -24,6 +24,7 @@ public class OracleDBConnection : IDBConnection
     {
         if (connection != null)
         {
+            OracleConnection.ClearPool(connection);
             connection.Close();
             connection.Dispose();
             connection = null;
