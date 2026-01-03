@@ -29,13 +29,13 @@ public class ProjectController : IController
         
         view.AddBoardButton.Click += (sender, e) =>
         {
-            main.StartUI("project_selection");
+            main.StartUI("add_board", proj);
         };
         
         try
         {
             var boardRepo = Provider.Instance.ProvideBoardRepository();
-            foreach(var board in boardRepo.SelectAll())
+            foreach(var board in boardRepo.SelectByProject(proj))
             {
                 view.Selection.AddProjectSquare(board.Name, (sender, e) =>
                 {

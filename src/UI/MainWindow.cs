@@ -36,6 +36,9 @@ public class MainWindow : Window
             case "project":
                 controller = new ProjectController(this);
                 break;
+            case "add_board":
+                controller = new AddBoardController(this);
+                break;
             case "add_project":
                 controller = new AddProjectController(this);
                 break;
