@@ -42,6 +42,9 @@ public class MainWindow : Window
             case "add_project":
                 controller = new AddProjectController(this);
                 break;
+            case "kanban":
+                controller = new KanbanController(this);
+                break;
         }
 
         if(controller == null)

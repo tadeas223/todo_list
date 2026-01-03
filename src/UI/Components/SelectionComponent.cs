@@ -18,7 +18,7 @@ public class SelectionComponent : WrapPanel
         ItemHeight = 100;
     }
 
-    public void AddProjectSquare(string name, 
+    public void AddSquare(string name, 
         EventHandler<Avalonia.Interactivity.RoutedEventArgs> onClick)
     {
         var btn = new Button

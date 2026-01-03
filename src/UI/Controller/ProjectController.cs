@@ -37,11 +37,9 @@ public class ProjectController : IController
             var boardRepo = Provider.Instance.ProvideBoardRepository();
             foreach(var board in boardRepo.SelectByProject(proj))
             {
-                view.Selection.AddProjectSquare(board.Name, (sender, e) =>
+                view.Selection.AddSquare(board.Name, (sender, e) =>
                 {
-                    main.StartUI("error", "not implemented", () => {
-                        main.StartUI("project", proj);
-                    });
+                    main.StartUI("kanban", board, proj);
                     return;
                 });
             }

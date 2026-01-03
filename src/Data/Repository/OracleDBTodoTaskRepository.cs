@@ -259,11 +259,11 @@ class OracleDBTodoTaskRepository: ITodoTaskRepository
                     break;
             }
 
-            var board = boardRepository.SelectById(id);
-            if(board == null) continue;
+            var newBoard = boardRepository.SelectById(id);
+            if(newBoard == null) continue;
 
             TodoTask newTask = new TodoTaskBuilder(id)
-                .WithBoard(board)
+                .WithBoard(newBoard)
                 .WithName(name)
                 .WithDesc(desc)
                 .WithState(stateEnum)

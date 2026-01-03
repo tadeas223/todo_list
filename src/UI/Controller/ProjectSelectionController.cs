@@ -21,7 +21,7 @@ public class ProjectSelectionController : IController
             var projRepo = Provider.Instance.ProvideProjectRepository();
             foreach(var project in projRepo.SelectAll())
             {
-                view.Selection.AddProjectSquare(project.Name, (sender, e) =>
+                view.Selection.AddSquare(project.Name, (sender, e) =>
                 {
                     main.StartUI("project", project);
                     return;
