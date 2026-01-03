@@ -124,9 +124,9 @@ public class OracleDBProjectRepository: IProjectRepository
             return null;
         }
 
-        int resultId = data.Rows[0].Field<int>("id");
+        int resultId = Convert.ToInt32(data.Rows[0]["id"]);
         string? result_name = data.Rows[0].Field<string>("name");
-        bool locked = data.Rows[0].Field<bool>("locked");
+        bool locked = Convert.ToBoolean(data.Rows[0]["locked"]);
 
         if(result_name == null) return null;
         return new ProjectBuilder(resultId)
