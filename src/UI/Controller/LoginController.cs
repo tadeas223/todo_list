@@ -34,8 +34,15 @@ public class LoginController : IController
 
             try
             {
-                Provider.Instance.ProvideDBConnection().Connect(username!, password!, url!);
-
+                var con = Provider.Instance.ProvideDBConnection();
+                con.Connect(username!, password!, url!);
+                if(!con.Connected)
+                {
+                    main.StartUI("error", "failed to connect", () => {
+                        main.StartUI("login");
+                    });
+                    return;
+                }
                 main.StartUI("project_selection");
                 return;
             }

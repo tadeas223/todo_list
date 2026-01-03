@@ -21,9 +21,9 @@ public class ProjectSelectionController : IController
             var projRepo = Provider.Instance.ProvideProjectRepository();
             foreach(var project in projRepo.SelectAll())
             {
-                view.AddProjectSquare(project, (sender, e) =>
+                view.Selection.AddProjectSquare(project.Name, (sender, e) =>
                 {
-                    main.StartUI("error", "not implemented :(", () => main.StartUI("project_selection"));
+                    main.StartUI("project", project);
                     return;
                 });
             }
@@ -43,8 +43,7 @@ public class ProjectSelectionController : IController
         
         view.AddButton.Click += (sender, e) =>
         {
-            Provider.Instance.ProvideDBConnection().Disconnect();
-            main.StartUI("error", "not implemented :(", () => main.StartUI("project_selection"));
+            main.StartUI("add_project");
             return;
         };
 

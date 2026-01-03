@@ -33,6 +33,12 @@ public class MainWindow : Window
             case "project_selection":
                 controller = new ProjectSelectionController(this);
                 break;
+            case "project":
+                controller = new ProjectController(this);
+                break;
+            case "add_project":
+                controller = new AddProjectController(this);
+                break;
         }
 
         if(controller == null)

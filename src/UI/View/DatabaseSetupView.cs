@@ -32,7 +32,7 @@ public class DatabaseSetupView: UserControl
 
         TitleText = new TextBlock 
         { 
-            Text = "database login",
+            Text = "database setup",
             FontSize=34, 
             Margin = new Thickness(10)
         };
