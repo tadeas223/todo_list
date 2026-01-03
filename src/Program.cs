@@ -1,66 +1,42 @@
-﻿/* 100% ai generated */
-
-using Avalonia;
-using Avalonia.Controls;
+﻿using Avalonia;
 using Avalonia.Controls.ApplicationLifetimes;
+using Avalonia.Styling;
 using Avalonia.Themes.Fluent;
-using Avalonia.Styling; // for ThemeVariant
-using Avalonia;
 
-namespace TodoApp
+using UI;
+
+using Data.Repository;
+using DI;
+using Domain.Model;
+
+public class App : Application
 {
-    class Program
+    public override void Initialize()
     {
-        static void Main(string[] args)
-        {
-            BuildAvaloniaApp().StartWithClassicDesktopLifetime(args);
-        }
-
-        public static AppBuilder BuildAvaloniaApp()
-            => AppBuilder.Configure<App>()
-                         .UsePlatformDetect()
-                         .LogToTrace();
+        Styles.Add(new FluentTheme());
+        RequestedThemeVariant = ThemeVariant.Dark; 
     }
 
-    public class App : Application
+    public override void OnFrameworkInitializationCompleted()
     {
-        public override void Initialize()
+        if (ApplicationLifetime is IClassicDesktopStyleApplicationLifetime desktop)
         {
-            // Add the Fluent theme (no Mode property)
-            Styles.Add(new FluentTheme());
-
-            // Optional: choose light or dark
-            RequestedThemeVariant = ThemeVariant.Light; // or ThemeVariant.Dark
+            desktop.MainWindow = new MainWindow();
         }
 
-        public override void OnFrameworkInitializationCompleted()
-        {
-            if (ApplicationLifetime is IClassicDesktopStyleApplicationLifetime desktop)
-            {
-                desktop.MainWindow = new MainWindow();
-            }
+        base.OnFrameworkInitializationCompleted();
+    }
+}
 
-            base.OnFrameworkInitializationCompleted();
-        }
+class Program
+{
+    public static void Main(string[] args)
+    {
+        BuildAvaloniaApp().StartWithClassicDesktopLifetime(args);
     }
 
-    public class MainWindow : Window
-    {
-        public MainWindow()
-        {
-            Title = "Avalonia 11+ Themed App";
-            Width = 400;
-            Height = 300;
-
-            var button = new Button
-            {
-                Content = "Click Me",
-                HorizontalAlignment = Avalonia.Layout.HorizontalAlignment.Center,
-                VerticalAlignment = Avalonia.Layout.VerticalAlignment.Center,
-                Margin = new Avalonia.Thickness(10),
-            };
-
-            Content = button;
-        }
-    }
+    public static AppBuilder BuildAvaloniaApp()
+        => AppBuilder.Configure<App>()
+                     .UsePlatformDetect()
+                     .LogToTrace();
 }

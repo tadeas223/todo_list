@@ -68,7 +68,7 @@ public class OracleDBConnection : IDBConnection
     
     public void Create(string sysUsername, string sysPassword, string datasource, string schema, string password)
     {
-        string sysConnString = $"User Id={sysUsername};Password={sysPassword};Data Source={datasource}";
+        string sysConnString = $"User Id={sysUsername};Password={sysPassword};Data Source={datasource}/XE";
         using var connection = new OracleConnection(sysConnString);
         connection.Open();
 
