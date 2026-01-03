@@ -1,4 +1,5 @@
 using System.Data;
+using DI;
 using Domain.Model;
 using Domain.Repository;
 using Oracle.ManagedDataAccess.Client;
@@ -84,10 +85,16 @@ class OracleDBBoardRepository: IBoardRepository
         {
             string? name = row.Field<string>("name");
             if(name == null) continue;
-            
+
+            Project? proj = Provider.Instance.ProvideProjectRepository().SelectById(Convert.ToInt32(row["project_id"]));
+            if(proj == null)
+            {
+                continue;
+            }
+
             var board = new BoardBuilder(Convert.ToInt32(row["id"]))
                 .WithName(name)
-                .WithProject(new ProjectBuilder(Convert.ToInt32(row["project_id"])).Build())
+                .WithProject(proj)
                 .Build();
             result.Add(board);
         }
@@ -107,9 +114,45 @@ class OracleDBBoardRepository: IBoardRepository
         string? name = row.Field<string>("name");
         if(name == null) return null;
 
+        Project? proj = Provider.Instance.ProvideProjectRepository().SelectById(Convert.ToInt32(row["project_id"]));
+        if(proj == null)
+        {
+            return null;
+        }
+
         return new BoardBuilder(Convert.ToInt32(row["id"]))
             .WithName(name)
-            .WithProject(new ProjectBuilder(Convert.ToInt32(row["project_id"])).Build())
+            .WithProject(proj)
             .Build();
+    }
+    
+    public HashSet<Board> SelectByProject(Project project)
+    {
+        string sql = "SELECT id, name, project_id FROM board WHERE project_id = :id";
+        DataTable dt = connection.ExecuteQuery(sql,
+            new OracleParameter("id", OracleDbType.Int32) { Value = project.Id }
+        );
+
+        var result = new HashSet<Board>();
+
+        foreach (DataRow row in dt.Rows)
+        {
+            string? name = row.Field<string>("name");
+            if(name == null) continue;
+
+            Project? proj = Provider.Instance.ProvideProjectRepository().SelectById(Convert.ToInt32(row["project_id"]));
+            if(proj == null)
+            {
+                continue;
+            }
+
+            var board = new BoardBuilder(Convert.ToInt32(row["id"]))
+                .WithName(name)
+                .WithProject(proj)
+                .Build();
+            result.Add(board);
+        }
+
+        return result;
     }
 }

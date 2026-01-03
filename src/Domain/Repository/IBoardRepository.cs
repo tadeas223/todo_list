@@ -11,4 +11,5 @@ public interface IBoardRepository
     
     public HashSet<Board> SelectAll();
     public Board? SelectById(int id);
+    public HashSet<Board> SelectByProject(Project project);
 }
