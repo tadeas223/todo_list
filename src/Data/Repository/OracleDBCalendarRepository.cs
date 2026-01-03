@@ -3,6 +3,7 @@ using DI;
 using Domain.Model;
 using Domain.Repository;
 using Oracle.ManagedDataAccess.Client;
+using Oracle.ManagedDataAccess.Types;
 
 namespace Data.Repository;
 
@@ -35,7 +36,7 @@ public class OracleDBCalendarRepository: ICalendarRepository
             outId
         );
 
-        int newId = Convert.ToInt32(outId.Value);
+        int newId = ((OracleDecimal)outId.Value).ToInt32();
 
         Calendar newCalendar = new CalendarBuilder(newId)
         .WithName(calendar.Name)

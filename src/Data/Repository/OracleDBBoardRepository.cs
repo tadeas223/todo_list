@@ -2,6 +2,7 @@ using System.Data;
 using Domain.Model;
 using Domain.Repository;
 using Oracle.ManagedDataAccess.Client;
+using Oracle.ManagedDataAccess.Types;
 
 namespace Data.Repository;
 
@@ -32,7 +33,7 @@ class OracleDBBoardRepository: IBoardRepository
             outId
         );
 
-        int newId = ((OracleDecimal)outId.Value);
+        int newId = ((OracleDecimal)outId.Value).ToInt32();
 
         board = new BoardBuilder(newId)
             .WithName(board.Name)
