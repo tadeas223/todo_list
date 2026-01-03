@@ -102,6 +102,7 @@ public class OracleDBConnection : IDBConnection
                 project_id NUMBER NOT NULL,
                 CONSTRAINT fk_board_project FOREIGN KEY (project_id)
                     REFERENCES project(id)
+                    ON DELETE CASCADE
             )
             """);
 
@@ -117,6 +118,7 @@ public class OracleDBConnection : IDBConnection
                 board_id NUMBER NOT NULL,
                 CONSTRAINT fk_task_board FOREIGN KEY (board_id)
                     REFERENCES board(id)
+                    ON DELETE CASCADE
             )
             """);
 

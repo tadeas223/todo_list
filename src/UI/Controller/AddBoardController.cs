@@ -23,7 +23,7 @@ public class AddBoardController : IController
             string? name = view.NameField.Text;
             if(name == null)
             {
-                main.StartUI("error", "missing fields", () => main.StartUI("add_project"));
+                main.StartUI("error", "missing fields", () => main.StartUI("add_board"));
                 return;
             }
 

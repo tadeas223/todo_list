@@ -40,7 +40,7 @@ public class ProjectController : IController
                 view.Selection.AddProjectSquare(board.Name, (sender, e) =>
                 {
                     main.StartUI("error", "not implemented", () => {
-                        main.StartUI("project_selection");
+                        main.StartUI("project", proj);
                     });
                     return;
                 });
