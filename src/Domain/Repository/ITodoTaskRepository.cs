@@ -10,4 +10,6 @@ public interface ITodoTaskRepository
     
     public HashSet<TodoTask> SelectAll();
     public TodoTask? SelectById(int id);
+
+    public HashSet<TodoTask> SelectByBoard(Board board);
 }

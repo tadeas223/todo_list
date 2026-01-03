@@ -218,4 +218,62 @@ class OracleDBTodoTaskRepository: ITodoTaskRepository
             .WithFinishDate(finish_date)
             .Build();
     }
+    
+    public HashSet<TodoTask> SelectByBoard(Board board)
+    {
+        string sql = "SELECT * FROM task WHERE board_id = :id";
+        DataTable data = connection.ExecuteQuery(sql,
+            new OracleParameter("id", OracleDbType.Int32) { Value = board.Id }
+        );
+
+        HashSet<TodoTask> tasks = new HashSet<TodoTask>();
+        foreach(DataRow row in data.Rows)
+        {
+            int id = Convert.ToInt32(row["id"]);
+            string? name = row.Field<string>("name");
+            string? desc = row.Field<string>("task_desc");
+            string? state = row.Field<string>("state");
+            float progress = (float)Convert.ToDouble(row["progress"]);
+            DateTime finish_date = Convert.ToDateTime(row["finish_date"]);
+
+            if(name == null
+                || desc == null
+                || state == null
+            ) continue;
+
+            TaskState stateEnum = TaskState.TODO;
+
+            switch(state)
+            {
+                case "todo":
+                    stateEnum = TaskState.TODO;
+                    break;
+                case "doing":
+                    stateEnum = TaskState.DOING;
+                    break;
+                case "done":
+                    stateEnum = TaskState.DONE;
+                    break;
+                case "backlog":
+                    stateEnum = TaskState.BACKLOG;
+                    break;
+            }
+
+            var board = boardRepository.SelectById(id);
+            if(board == null) continue;
+
+            TodoTask newTask = new TodoTaskBuilder(id)
+                .WithBoard(board)
+                .WithName(name)
+                .WithDesc(desc)
+                .WithState(stateEnum)
+                .WithProgress(progress)
+                .WithFinishDate(finish_date)
+                .Build();
+
+            tasks.Add(newTask);
+        }
+
+        return tasks;
+    }
 }
