@@ -58,7 +58,7 @@ public class LoginController : IController
 
         view.DbSetupButton.Click += (sender, e) => main.StartUI("database_setup");
 
-        main.Content = view;
+        main.Present(view);
     }
 
 

@@ -23,7 +23,15 @@ public class SelectionComponent : WrapPanel
     {
         var btn = new Button
         {
-            Content = name,
+            Content = new TextBlock
+            {
+                Text = name,
+                TextWrapping = TextWrapping.Wrap,
+                TextAlignment = TextAlignment.Left,
+                VerticalAlignment = VerticalAlignment.Center,
+                HorizontalAlignment = HorizontalAlignment.Center,
+            },
+            
             Width = 100,
             Height = 100,
             Background = Brushes.DarkBlue

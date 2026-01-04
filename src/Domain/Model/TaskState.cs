@@ -2,8 +2,8 @@ namespace Domain.Model;
 
 public enum TaskState
 {
-    DOING,
-    DONE,
-    TODO,
-    BACKLOG
+    TODO = 0,
+    DOING = 1,
+    DONE = 2,
+    BACKLOG = 3
 }

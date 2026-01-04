@@ -41,6 +41,6 @@ public class AddBoardController : IController
             main.StartUI("project", args[0]);
         };
 
-        main.Content = view;
+        main.Present(view);
     }
 }

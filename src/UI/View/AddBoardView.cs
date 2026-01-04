@@ -14,7 +14,6 @@ public class AddBoardView : UserControl
     public AddBoardView()
     {
         HorizontalAlignment = HorizontalAlignment.Stretch;
-        VerticalAlignment = VerticalAlignment.Stretch;
 
         TitleText = new TextBlock 
         { 
@@ -35,6 +34,7 @@ public class AddBoardView : UserControl
         {
             Margin = new Thickness(20),
             Spacing = 10,
+            VerticalAlignment = VerticalAlignment.Top,
             Children =
             {
                 TitleText,

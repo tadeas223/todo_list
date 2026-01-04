@@ -29,8 +29,8 @@ class OracleDBTodoTaskRepository: ITodoTaskRepository
 
         string sql = """
             INSERT INTO task (name, task_desc, state, progress, finish_date, board_id) 
-            VALUES (:name, :desc, :state, :progress, :finish_date, :board_id)
-             RETURNING Id INTO :newId;
+            VALUES (:name, :task_desc, :state, :progress, :finish_date, :board_id)
+            RETURNING Id INTO :newId
         """;
 
         if(task.Board.Id == null)
@@ -43,7 +43,7 @@ class OracleDBTodoTaskRepository: ITodoTaskRepository
             new OracleParameter("task_desc", OracleDbType.Varchar2) { Value = task.Desc },
             new OracleParameter("state", OracleDbType.Varchar2) { Value = task.State.ToString().ToLower() },
             new OracleParameter("progress", OracleDbType.Decimal) { Value = task.Progress },
-            new OracleParameter("finish_date", OracleDbType.Date) { Value = task.FinishDate },
+            new OracleParameter("finish_date", OracleDbType.Date) { Value = task.FinishDate.HasValue ? task.FinishDate.Value : DBNull.Value},
             new OracleParameter("board_id", OracleDbType.Int32) { Value = task.Board.Id },
             outId
         );
@@ -234,12 +234,13 @@ class OracleDBTodoTaskRepository: ITodoTaskRepository
             string? desc = row.Field<string>("task_desc");
             string? state = row.Field<string>("state");
             float progress = (float)Convert.ToDouble(row["progress"]);
-            DateTime finish_date = Convert.ToDateTime(row["finish_date"]);
+            DateTime? finish_date = row.Field<DateTime?>("finish_date");
+            int board_id = Convert.ToInt32(row["board_id"]);
 
             if(name == null
-                || desc == null
                 || state == null
             ) continue;
+
 
             TaskState stateEnum = TaskState.TODO;
 
@@ -259,13 +260,13 @@ class OracleDBTodoTaskRepository: ITodoTaskRepository
                     break;
             }
 
-            var newBoard = boardRepository.SelectById(id);
+            var newBoard = boardRepository.SelectById(board_id);
             if(newBoard == null) continue;
 
             TodoTask newTask = new TodoTaskBuilder(id)
                 .WithBoard(newBoard)
                 .WithName(name)
-                .WithDesc(desc)
+                .WithDesc(desc ?? "")
                 .WithState(stateEnum)
                 .WithProgress(progress)
                 .WithFinishDate(finish_date)

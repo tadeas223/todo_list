@@ -27,13 +27,14 @@ public class KanbanController : IController
         catch(Exception ex)
         {
             main.StartUI("error", $"failed while fetching tasks: {ex.Message}", () => main.StartUI("board", args[0]));
+            return;
         }
 
         foreach(TodoTask task in todoTasks)
         {
             view.AddTask(task, (sender ,e) =>
             {
-                main.StartUI("error", "not implemented :(", () => main.StartUI("kanban", args[0]));
+                main.StartUI("error", "not implemented :(", () => main.StartUI("kanban", args[0], args[1]));
             });
         }
 
@@ -53,6 +54,11 @@ public class KanbanController : IController
             }
         };
 
-        main.Content = view;
+        view.AddTaskButton.Click += (sender, e) =>
+        {
+            main.StartUI("add_task", board, args[1]);
+        };
+
+        main.Present(view);
     }
 }

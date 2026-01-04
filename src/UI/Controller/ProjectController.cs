@@ -52,6 +52,6 @@ public class ProjectController : IController
             return;
         }
 
-        main.Content = view;
+        main.Present(view);
     }
 }

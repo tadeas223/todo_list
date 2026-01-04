@@ -129,7 +129,15 @@ public class KanbanView: UserControl
     {
         var button = new Button
         {
-            Content = task.Name,
+            Content = new TextBlock
+            {
+                Text = task.Name,
+                TextWrapping = TextWrapping.Wrap,
+                TextAlignment = TextAlignment.Left,
+                VerticalAlignment = VerticalAlignment.Center,
+                HorizontalAlignment = HorizontalAlignment.Center,
+            },
+
             Width = 100,
             Height = 100,
             Background = Brushes.DarkBlue,

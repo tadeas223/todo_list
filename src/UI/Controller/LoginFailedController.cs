@@ -19,6 +19,6 @@ public class ErrorController: IController
         view.ErrorMessage.Text = (string)args[0];
         view.BackButton.Click += (sender, e) => ((Action)args[1])();
 
-        main.Content = view;
+        main.Present(view);
     }
 }

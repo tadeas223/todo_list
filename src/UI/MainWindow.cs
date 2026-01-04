@@ -3,15 +3,16 @@ namespace UI;
 using Avalonia.Controls;
 using Microsoft.CSharp.RuntimeBinder;
 using UI.Controller;
+using Avalonia.Layout;
+using Avalonia;
+using Avalonia.Controls.Primitives;
 
-public class MainWindow : Window
+public class MainWindow : ScrollViewer
 {
-    private ContentControl content;
-
     public MainWindow()
     {
-        content = new ContentControl();
-        Content = content;
+        VerticalScrollBarVisibility = ScrollBarVisibility.Auto;
+        HorizontalScrollBarVisibility = ScrollBarVisibility.Disabled;
 
         StartUI("login");
     }
@@ -45,6 +46,9 @@ public class MainWindow : Window
             case "kanban":
                 controller = new KanbanController(this);
                 break;
+            case "add_task":
+                controller = new AddTaskController(this);
+                break;
         }
 
         if(controller == null)
@@ -54,5 +58,10 @@ public class MainWindow : Window
 
 
         controller.Start(args);
+    }
+
+    public void Present(UserControl view)
+    {
+        Content = view;
     }
 }

@@ -7,7 +7,7 @@ public class TodoTask
     private string desc;
     private TaskState state;
     private float progress;
-    private DateTime finishDate;
+    private DateTime? finishDate;
     private Board board;
 
     public int? Id => id;
@@ -15,7 +15,7 @@ public class TodoTask
     public string Desc => desc;
     public TaskState State => state;
     public float Progress => progress;
-    public DateTime FinishDate => finishDate;
+    public DateTime? FinishDate => finishDate;
     public Board Board => board;
 
     public TodoTask(TodoTaskBuilder builder)
@@ -25,7 +25,7 @@ public class TodoTask
         this.desc = builder.Desc!;
         this.state = builder.State!.Value;
         this.progress = builder.Progress!.Value;
-        this.finishDate = builder.FinishDate!.Value;
+        this.finishDate = builder.FinishDate;
         this.board = builder.Board!;
     }
 }

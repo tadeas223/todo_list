@@ -17,7 +17,6 @@ public class ProjectView : UserControl
     public ProjectView()
     {
         HorizontalAlignment = HorizontalAlignment.Stretch;
-        VerticalAlignment = VerticalAlignment.Stretch;
 
         DeleteProjectButton = new Button
         {

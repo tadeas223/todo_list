@@ -47,6 +47,6 @@ public class ProjectSelectionController : IController
             return;
         };
 
-        main.Content = view;
+        main.Present(view);
     }
 }

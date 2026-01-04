@@ -81,6 +81,6 @@ public class DatabaseSetupController : IController
 
         view.LoginButton.Click += (sender, e) => main.StartUI("login");
 
-        main.Content = view;
+        main.Present(view);
     }
 }

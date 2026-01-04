@@ -88,7 +88,7 @@ public class TodoTaskBuilder
         return this;
     }
 
-    public TodoTaskBuilder WithFinishDate(DateTime finishDate)
+    public TodoTaskBuilder WithFinishDate(DateTime? finishDate)
     {
         FinishDate = finishDate;
         return this;
@@ -109,11 +109,11 @@ public class TodoTaskBuilder
     public TodoTask Build()
     {
         if(name == null 
-        || board == null 
-        || desc == null 
-        || state == null 
-        || progress == null 
-        || finishDate == null)
+            || board == null 
+            || desc == null 
+            || state == null 
+            || progress == null 
+        )
         {
             throw new Exception("not all params set");
         }

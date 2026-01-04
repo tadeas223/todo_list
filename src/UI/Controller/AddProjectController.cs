@@ -41,6 +41,6 @@ public class AddProjectController : IController
             main.StartUI("project_selection");
         };
 
-        main.Content = view;
+        main.Present(view);
     }
 }

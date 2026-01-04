@@ -2,6 +2,7 @@
 using Avalonia.Controls.ApplicationLifetimes;
 using Avalonia.Styling;
 using Avalonia.Themes.Fluent;
+using Avalonia.Controls;
 
 using UI;
 
@@ -21,7 +22,10 @@ public class App : Application
     {
         if (ApplicationLifetime is IClassicDesktopStyleApplicationLifetime desktop)
         {
-            desktop.MainWindow = new MainWindow();
+            desktop.MainWindow = new Window
+            {
+                Content = new MainWindow()
+            };
         }
 
         base.OnFrameworkInitializationCompleted();
