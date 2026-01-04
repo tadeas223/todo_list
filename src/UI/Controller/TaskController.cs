@@ -23,6 +23,11 @@ public class TaskController : IController
         view.StateSelect.SelectedValue = task.State.ToString();
         view.ProgressBar.Value = (double)task.Progress;
 
+        if(task.FinishDate != null)
+        {
+            view.FinishDateLabel.Text = "DONE at: " + task.FinishDate!.ToString();
+        }
+
         view.BackButton.Click += (sender, e) =>
         {
             main.StartUI("kanban", args[1], args[2]);
@@ -55,6 +60,7 @@ public class TaskController : IController
                 .WithDesc(desc!)
                 .WithState(state)
                 .WithProgress((float)progress)
+                .WithFinishDate((state == TaskState.DONE)? DateTime.Now : null)
                 .Build();
 
             try

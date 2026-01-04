@@ -18,6 +18,8 @@ public class TaskView : UserControl
     public TextBox DescField {get; private set;}
     public TextBlock ProgressLabel {get; private set;}
     public ProgressBarComponent ProgressBar {get; private set;}
+    public TextBlock FinishDateLabel {get; private set;}
+
     public ComboBox StateSelect {get; private set;}
     public Button UpdateButton {get; private set;}
 
@@ -45,6 +47,8 @@ public class TaskView : UserControl
         StateSelectLabel = new TextBlock {Text = "state:" };
         DescLabel = new TextBlock { Text = "description:" };
         ProgressLabel = new TextBlock { Text = "progress:" };
+
+        FinishDateLabel = new TextBlock { Text = "" };
 
         NameField = new TextBox { Watermark = "name" };
         StateSelect = new ComboBox
@@ -93,6 +97,7 @@ public class TaskView : UserControl
                 ProgressBar,
                 StateSelectLabel,
                 StateSelect,
+                FinishDateLabel,
                 UpdateButton
             }
         };
