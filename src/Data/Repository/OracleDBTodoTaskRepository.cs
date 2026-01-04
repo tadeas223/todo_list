@@ -65,11 +65,11 @@ class OracleDBTodoTaskRepository: ITodoTaskRepository
     {
         string sql = """
             UPDATE task SET 
-                name = :name 
-                task_desc = :desc
-                state = :state
-                progress = :progress
-                finish_date = :finish_date
+                name = :name, 
+                task_desc = :task_desc,
+                state = :state,
+                progress = :progress,
+                finish_date = :finish_date,
                 board_id = :board_id
             WHERE id = :id
         """;
@@ -84,8 +84,9 @@ class OracleDBTodoTaskRepository: ITodoTaskRepository
             new OracleParameter("task_desc", OracleDbType.Varchar2) { Value = task.Desc },
             new OracleParameter("state", OracleDbType.Varchar2) { Value = task.State.ToString().ToLower() },
             new OracleParameter("progress", OracleDbType.Decimal) { Value = task.Progress },
-            new OracleParameter("finish_date", OracleDbType.Date) { Value = task.FinishDate },
-            new OracleParameter("board_id", OracleDbType.Int32) { Value = task.Board.Id }
+            new OracleParameter("finish_date", OracleDbType.Date) { Value = task.FinishDate.HasValue ? task.FinishDate.Value : DBNull.Value},
+            new OracleParameter("board_id", OracleDbType.Int32) { Value = task.Board.Id },
+            new OracleParameter("id", OracleDbType.Int32) { Value = task.Id }
         );
     }
 

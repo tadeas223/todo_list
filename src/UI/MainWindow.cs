@@ -49,6 +49,9 @@ public class MainWindow : ScrollViewer
             case "add_task":
                 controller = new AddTaskController(this);
                 break;
+            case "task":
+                controller = new TaskController(this);
+                break;
         }
 
         if(controller == null)

@@ -55,7 +55,7 @@ public class AddTaskView : UserControl
             AcceptsReturn = true,
             AcceptsTab = true,
             TextWrapping = TextWrapping.Wrap,
-            HorizontalAlignment = HorizontalAlignment.Right,
+            HorizontalAlignment = HorizontalAlignment.Left,
             Width = 400,
             Height = 200,
         };

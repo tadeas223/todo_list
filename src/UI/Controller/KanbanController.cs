@@ -34,7 +34,7 @@ public class KanbanController : IController
         {
             view.AddTask(task, (sender ,e) =>
             {
-                main.StartUI("error", "not implemented :(", () => main.StartUI("kanban", args[0], args[1]));
+                main.StartUI("task", task, args[0], args[1]);
             });
         }
 
