@@ -4,11 +4,11 @@ using UI.View;
 using Domain.Model;
 using DI;
 
-public class TaskController : IController
+public class CalendarTaskController : IController
 {
     private MainWindow main;
     private TaskView view;
-    public TaskController(MainWindow main)
+    public CalendarTaskController(MainWindow main)
     {
         this.main = main;
         view = new TaskView();
@@ -19,6 +19,8 @@ public class TaskController : IController
         TodoTask task = (TodoTask) args[0];
         Board board = (Board) args[1];
         Project project = (Project) args[2];
+        Calendar calendar = (Calendar) args[3];
+        DateTime date = (DateTime) args[4];
 
         view.NameField.Text = task.Name;
         view.DescField.Text = task.Desc ?? "";
@@ -32,22 +34,22 @@ public class TaskController : IController
 
         view.BackButton.Click += (sender, e) =>
         {
-            main.StartUI("kanban", board, project);
+            main.StartUI("calendar_date", calendar, date, project);
         };
 
         view.DeleteButton.Click += (sender, e) =>
         {
             try
             {
-                Provider.Instance.ProvideTodoTaskRepository().Delete(task);
+                Provider.Instance.ProvideCalendarRepository().DeleteTask(calendar, task);
+                main.StartUI("calendar_date", calendar, date, project);
+                return;
             }
             catch(Exception ex)
             {
-                main.StartUI("error", $"error while updating task: {ex.Message}", () => main.StartUI("kanban", board, project));
+                main.StartUI("error", $"error while deleting task: {ex.Message}", () => main.StartUI("kanban", board, project));
                 return;
             }
-
-            main.StartUI("kanban", args[1], args[2]);
         };
 
         view.UpdateButton.Click += (sender, e) =>
@@ -71,16 +73,11 @@ public class TaskController : IController
             }
             catch(Exception ex)
             {
-                main.StartUI("error", $"error while updating task: {ex.Message}", () => main.StartUI("kanban", board, project));
+                main.StartUI("error", $"error while updating task: {ex.Message}", () => main.StartUI("calendar_date", calendar, date, project));
                 return;
             }
 
-            main.StartUI("kanban", board, project);
-        };
-
-        view.AddToCalendarButton.Click += (sender, e) =>
-        {
-            main.StartUI("add_to_calendar", task, board, project);
+            main.StartUI("calendar_date", calendar, date, project);
         };
 
         main.Present(view);

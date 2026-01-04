@@ -46,14 +46,14 @@ public class OracleDBCalendarRepository: ICalendarRepository
         calendar = newCalendar;
     }
 
-    public void InsertTask(Calendar calendar, TodoTask task)
+    public void InsertTask(Calendar calendar, DateTime date, TodoTask task)
     {
         var outId = new OracleParameter("newId", OracleDbType.Int32)
         {
             Direction = ParameterDirection.Output
         };
 
-        string sql = "INSERT INTO calendar_task (calendar_id, task_id) VALUES (:calendar_id, :task_id) RETURNING Id INTO :newId";
+        string sql = "INSERT INTO calendar_task (calendar_id, task_date, task_id) VALUES (:calendar_id, :task_date, :task_id) RETURNING Id INTO :newId";
         
         if(calendar.Id == null)
         {
@@ -67,6 +67,7 @@ public class OracleDBCalendarRepository: ICalendarRepository
         
         connection.ExecuteNonQuery(sql,
             new OracleParameter("calendar_id", OracleDbType.Int32) { Value = calendar.Id },
+            new OracleParameter("task_date", OracleDbType.Date) { Value = date },
             new OracleParameter("task_id", OracleDbType.Int32) { Value = task.Id },
             outId
         );
@@ -102,6 +103,20 @@ public class OracleDBCalendarRepository: ICalendarRepository
         string sql = "DELETE FROM calendar WHERE id = :id";
         connection.ExecuteNonQuery(sql, 
             new OracleParameter("id", OracleDbType.Int32) { Value = calendar.Id }
+        );
+    }
+
+    public void DeleteTask(Calendar calendar, TodoTask task)
+    {
+        if(calendar.Id == null)
+        {
+            throw new ArgumentNullException("calendar does not have an id");
+        }
+
+        string sqlTasks = "DELETE FROM calendar_task WHERE calendar_id = :calendar_id AND task_id = :task_id AND rownum = 1";
+        connection.ExecuteNonQuery(sqlTasks, 
+            new OracleParameter("calendar_id", OracleDbType.Int32) { Value = calendar.Id },
+            new OracleParameter("task_id", OracleDbType.Int32) { Value = task.Id }
         );
     }
 
@@ -160,11 +175,11 @@ public class OracleDBCalendarRepository: ICalendarRepository
             .Build();
     }
 
-    public Dictionary<DateTime, TodoTask> SelectCalendarTasks(Calendar calendar)
+    public Dictionary<DateTime, HashSet<TodoTask>> SelectCalendarTasks(Calendar calendar)
     {
         string sql = """
             SELECT task_id, calendar_id, task_date
-            FROM calendar_task WHERE calendar_id = :calendar_id;
+            FROM calendar_task WHERE calendar_id = :calendar_id
         """;
 
         if(calendar.Id == null)
@@ -176,17 +191,21 @@ public class OracleDBCalendarRepository: ICalendarRepository
             new OracleParameter("calendar_id", OracleDbType.Int32) { Value = calendar.Id }
         );
 
-        var tasks = new Dictionary<DateTime, TodoTask>();
+        var tasks = new Dictionary<DateTime, HashSet<TodoTask>>();
 
         foreach (DataRow row in dt.Rows)
         {
-            int taskId = row.Field<int>("id");
-            int calendarId = row.Field<int>("id");
+            int taskId = Convert.ToInt32(row["task_id"]);
+            int calendarId = Convert.ToInt32(row["calendar_id"]);
             DateTime date = row.Field<DateTime>("task_date");
             TodoTask? task = Provider.Instance.ProvideTodoTaskRepository().SelectById(taskId);
             if(task == null) continue;
 
-            tasks[date] = task;
+            if(!tasks.ContainsKey(date))
+            {
+                tasks[date] = new HashSet<TodoTask>();
+            }
+            tasks[date].Add(task);
         }
 
         return tasks;

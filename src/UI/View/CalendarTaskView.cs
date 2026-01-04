@@ -6,12 +6,11 @@ using Avalonia.Controls;
 using Avalonia.Layout;
 using Avalonia.Media;
 
-public class TaskView : UserControl 
+public class CalendarTaskView : UserControl 
 {
     public TittleBarComponent TittleBar {get; private set;}
     public Button BackButton {get; private set;}
     public Button DeleteButton {get; private set;}
-    public Button AddToCalendarButton {get; private set;}
     public TextBlock NameLabel {get; private set;}
     public TextBox NameField {get; private set;}
     public TextBlock StateSelectLabel {get; private set;}
@@ -24,7 +23,7 @@ public class TaskView : UserControl
     public ComboBox StateSelect {get; private set;}
     public Button UpdateButton {get; private set;}
 
-    public TaskView()
+    public CalendarTaskView()
     {
         BackButton = new Button
         {
@@ -36,7 +35,7 @@ public class TaskView : UserControl
         
         DeleteButton = new Button
         {
-            Content = "delete",
+            Content = "delete from calendar",
             HorizontalAlignment = HorizontalAlignment.Right,
             VerticalAlignment = VerticalAlignment.Center,
             Margin = new Thickness(0,0,5,0)
@@ -77,11 +76,6 @@ public class TaskView : UserControl
 
         ProgressBar = new();
         
-        AddToCalendarButton = new Button
-        {
-            Content = "add to calendar",
-        };
-
         UpdateButton = new Button
         {
             Content = "update",
@@ -104,7 +98,6 @@ public class TaskView : UserControl
                 StateSelectLabel,
                 StateSelect,
                 FinishDateLabel,
-                AddToCalendarButton,
                 UpdateButton
             }
         };

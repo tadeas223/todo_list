@@ -34,3 +34,4 @@ calendar_task
 id PK int
 calendar_id FK >- calendar
 task_id FK >- task
+date >- datetime

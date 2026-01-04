@@ -179,7 +179,7 @@ class OracleDBTodoTaskRepository: ITodoTaskRepository
             string? desc = row.Field<string>("task_desc");
             string? state = row.Field<string>("state");
             float progress = (float)Convert.ToDouble(row["progress"]);
-            DateTime finish_date = Convert.ToDateTime(row["finish_date"]);
+            DateTime? finish_date = row.Field<DateTime?>("finish_date");
 
         if(name == null
             || desc == null

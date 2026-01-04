@@ -9,7 +9,6 @@ using UI.Components;
 public class CalendarDateView : UserControl
 {
     public Button BackButton {get; private set;}
-    public Button AddButton {get; private set;}
     public TittleBarComponent TittleBar {get; private set;}
 
     public SelectionComponent Selection {get; private set;}
@@ -24,16 +23,7 @@ public class CalendarDateView : UserControl
             Margin = new Thickness(0,0,5,0)
         };
 
-        AddButton = new Button
-        {
-
-            Content = "add task",
-            HorizontalAlignment = HorizontalAlignment.Right,
-            VerticalAlignment = VerticalAlignment.Center,
-            Margin = new Thickness(0,0,5,0)
-        };
-
-        TittleBar = new TittleBarComponent("", AddButton, BackButton);
+        TittleBar = new TittleBarComponent("", BackButton);
 
         Selection = new SelectionComponent();
 
