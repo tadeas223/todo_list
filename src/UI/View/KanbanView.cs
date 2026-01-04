@@ -136,8 +136,8 @@ public class KanbanView: UserControl
                 TextAlignment = TextAlignment.Left,
                 VerticalAlignment = VerticalAlignment.Center,
                 HorizontalAlignment = HorizontalAlignment.Center,
+                FontSize = 16
             },
-
             Width = 100,
             Height = 100,
             Background = Brushes.DarkBlue,

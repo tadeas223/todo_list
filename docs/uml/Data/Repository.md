@@ -18,10 +18,10 @@ direction TB
     OracleDBCalendarRepository --() Domain.Repository.ICalendarRepository
     OracleDBTodoTaskRepository --() Domain.Repository.IOracleRepository
     
-    OracleDBProjectRepository --> OracleDBConnection: depends (DI)
-    OracleDBBoardRepository --> OracleDBConnection: depends (DI)
-    OracleDBCalendarRepository --> OracleDBConnection: depends (DI)
-    OracleDBTodoTaskRepository --> OracleDBConnection: depends (DI)
+    OracleDBProjectRepository --> OracleDBConnection
+    OracleDBBoardRepository --> OracleDBConnection
+    OracleDBCalendarRepository --> OracleDBConnection
+    OracleDBTodoTaskRepository --> OracleDBConnection
 
     class OracleDBProjectRepository {
         +OracleDBProjectRepository

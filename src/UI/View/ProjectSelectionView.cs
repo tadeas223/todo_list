@@ -18,7 +18,6 @@ public class ProjectSelectionView : UserControl
     public ProjectSelectionView()
     {
         HorizontalAlignment = HorizontalAlignment.Stretch;
-        VerticalAlignment = VerticalAlignment.Stretch;
 
         AddButton = new Button
         {
@@ -45,6 +44,7 @@ public class ProjectSelectionView : UserControl
         {
             Margin = new Thickness(20),
             Spacing = 10,
+            VerticalAlignment = VerticalAlignment.Top,
             Children =
             {
                 TittleBar,

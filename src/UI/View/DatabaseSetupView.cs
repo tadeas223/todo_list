@@ -28,7 +28,6 @@ public class DatabaseSetupView: UserControl
     public DatabaseSetupView()
     {
         HorizontalAlignment = HorizontalAlignment.Stretch;
-        VerticalAlignment = VerticalAlignment.Stretch;
 
         TitleText = new TextBlock 
         { 
@@ -89,6 +88,7 @@ public class DatabaseSetupView: UserControl
         {
             Margin = new Thickness(20),
             Spacing = 10,
+            VerticalAlignment = VerticalAlignment.Top,
             Children =
             {
                 TitleText,

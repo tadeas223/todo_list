@@ -33,11 +33,11 @@ classDiagram
     }
 
     class Project {
-        -id: int
+        -id: int?
         -name: string
         -locked: bool
 
-        +«get» Id: int 
+        +«get» Id: int? 
         +«get» Name: string
         +«get» Locked: bool
 
@@ -45,11 +45,11 @@ classDiagram
     }
 
     class Board {
-        -id: int
+        -id: int?
         -name: string
         -project: Project
 
-        +«get» Id: int
+        +«get» Id: int?
         +«get» Name: string
         +«get» Project: Project
 
@@ -57,11 +57,11 @@ classDiagram
     } 
 
     class Calendar {
-        -id: int
+        -id: int?
         -name: string
         -project: Project
 
-        +«get» Id: int
+        +«get» Id: int?
         +«get» Name: string
         +«get» Project: Project
 
@@ -69,7 +69,7 @@ classDiagram
     }
 
     class TodoTask {
-        -id: int
+        -id: int?
         -name: string
         -desc: string
         -state: TaskState
@@ -77,7 +77,7 @@ classDiagram
         -finishDate: DateTime
         -board: Board
 
-        +«get» Id: int 
+        +«get» Id: int? 
         +«get» Name: string
         +«get» Desc: string
         +«get» State: TaskState
@@ -89,11 +89,11 @@ classDiagram
     }
 
     class ProjectBuilder {
-        -id: int
+        -id: int?
         -name: string
         -locked: bool
 
-        +«get» Id: int
+        +«get» Id: int?
         +«get/set» Name: int
         +«get» Locked: bool
         
@@ -105,11 +105,11 @@ classDiagram
     }
 
     class BoardBuilder {
-        -id: int
+        -id: int?
         -name: string
         -project: Project
 
-        +«get» Id: int
+        +«get» Id: int?
         +«get/set» Name: string
         +«get/set» Project: Project
 
@@ -121,11 +121,11 @@ classDiagram
     }
 
     class CalendarBuilder {
-        -id: int
+        -id: int?
         -name: string
         -project: Project
 
-        +«get» Id: int
+        +«get» Id: int?
         +«get/set» Name: string
         +«get/set» Project: Project
 
@@ -137,7 +137,7 @@ classDiagram
     }
 
     class TodoTaskBuilder {
-        -id: int
+        -id: int?
         -name: string?
         -desc: string?
         -state: TaskState?
@@ -145,7 +145,7 @@ classDiagram
         -finishDate: DateTime?
         -board: Board?
         
-        +«get» Id: int 
+        +«get» Id: int? 
         +«get/set» Name: string?
         +«get/set» Desc: string?
         +«get/set» State: TaskState?

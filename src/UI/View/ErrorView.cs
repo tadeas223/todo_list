@@ -12,7 +12,6 @@ public class ErrorView : UserControl
     public ErrorView()
     {
         HorizontalAlignment = HorizontalAlignment.Stretch;
-        VerticalAlignment = VerticalAlignment.Stretch;
         
         TitleText = new TextBlock 
         { 
@@ -35,6 +34,7 @@ public class ErrorView : UserControl
         {
             Margin = new Avalonia.Thickness(20),
             Spacing = 10,
+            VerticalAlignment = VerticalAlignment.Top,
             Children =
             {
                 ErrorMessage,

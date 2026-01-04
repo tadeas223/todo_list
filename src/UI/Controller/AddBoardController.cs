@@ -3,6 +3,7 @@ namespace UI.Controller;
 using Domain.Model;
 using UI.View;
 using DI;
+using Cairo;
 
 public class AddBoardController : IController
 {
@@ -38,6 +39,11 @@ public class AddBoardController : IController
                 return;
             }
 
+            main.StartUI("project", args[0]);
+        };
+
+        view.BackButton.Click += (sender, e) =>
+        {
             main.StartUI("project", args[0]);
         };
 

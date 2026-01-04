@@ -3,10 +3,12 @@ namespace UI.View;
 using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Layout;
+using UI.Components;
 
 public class AddBoardView : UserControl
 {
-    public TextBlock TitleText { get; private set; }
+    public TittleBarComponent TittleBar { get; private set; }
+    public Button BackButton { get; private set; } 
     public TextBlock NameLabel { get; private set; }
     public TextBox NameField { get; private set; }
     public Button AddButton { get; private set; }
@@ -15,12 +17,15 @@ public class AddBoardView : UserControl
     {
         HorizontalAlignment = HorizontalAlignment.Stretch;
 
-        TitleText = new TextBlock 
-        { 
-            Text = "database login",
-            FontSize=34, 
-            Margin = new Thickness(10)
+        BackButton = new Button
+        {
+            Content = "back",
+            HorizontalAlignment = HorizontalAlignment.Right,
+            VerticalAlignment = VerticalAlignment.Center,
+            Margin = new Thickness(0,0,5,0)
         };
+
+        TittleBar = new TittleBarComponent("add board", BackButton);
 
         NameLabel = new TextBlock { Text = "board name:" };
         NameField = new TextBox { Watermark = "name" };
@@ -37,7 +42,7 @@ public class AddBoardView : UserControl
             VerticalAlignment = VerticalAlignment.Top,
             Children =
             {
-                TitleText,
+                TittleBar,
                 NameLabel,
                 NameField,
                 AddButton,

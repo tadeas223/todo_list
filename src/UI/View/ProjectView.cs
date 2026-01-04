@@ -48,6 +48,7 @@ public class ProjectView : UserControl
         {
             Margin = new Thickness(20),
             Spacing = 10,
+            VerticalAlignment = VerticalAlignment.Top,
             Children =
             {
                 TittleBar,
