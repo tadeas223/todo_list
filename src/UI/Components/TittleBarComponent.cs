@@ -9,11 +9,11 @@ public class TittleBarComponent: UserControl
     public DockPanel RootDock {get; private set;}
     public Grid TopBar {get; private set;}
 
-    public TittleBarComponent(string title, params Button[] buttons)
+    public TittleBarComponent(string tittle, params Button[] buttons)
     {
         TittleText = new TextBlock 
         { 
-            Text = "projects",
+            Text = tittle,
             FontSize=34, 
             Margin = new Thickness(10)
         };

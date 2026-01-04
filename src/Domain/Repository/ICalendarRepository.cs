@@ -12,5 +12,6 @@ public interface ICalendarRepository
     public HashSet<Calendar> SelectAll();
     public Calendar? SelectByName(string name);
     public Calendar? SelectById(int id);
-    public HashSet<TodoTask> SelectCalendarTasks(Calendar calendar);
+    public Dictionary<DateTime, TodoTask> SelectCalendarTasks(Calendar calendar);
+    public HashSet<Calendar> SelectByProject(Project project);
 }

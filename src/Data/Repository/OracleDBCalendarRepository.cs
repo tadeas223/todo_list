@@ -160,13 +160,11 @@ public class OracleDBCalendarRepository: ICalendarRepository
             .Build();
     }
 
-    public HashSet<TodoTask> SelectCalendarTasks(Calendar calendar)
+    public Dictionary<DateTime, TodoTask> SelectCalendarTasks(Calendar calendar)
     {
         string sql = """
-            SELECT t.id
-            FROM task t
-            JOIN calendar_task ct ON t.id = ct.task_id
-            WHERE ct.calendar_id = :calendar_id;
+            SELECT task_id, calendar_id, task_date
+            FROM calendar_task WHERE calendar_id = :calendar_id;
         """;
 
         if(calendar.Id == null)
@@ -178,17 +176,44 @@ public class OracleDBCalendarRepository: ICalendarRepository
             new OracleParameter("calendar_id", OracleDbType.Int32) { Value = calendar.Id }
         );
 
-        var tasks = new HashSet<TodoTask>();
+        var tasks = new Dictionary<DateTime, TodoTask>();
 
         foreach (DataRow row in dt.Rows)
         {
             int taskId = row.Field<int>("id");
+            int calendarId = row.Field<int>("id");
+            DateTime date = row.Field<DateTime>("task_date");
             TodoTask? task = Provider.Instance.ProvideTodoTaskRepository().SelectById(taskId);
             if(task == null) continue;
 
-            tasks.Add(task);
+            tasks[date] = task;
         }
 
         return tasks;
     }
+    
+    public HashSet<Calendar> SelectByProject(Project project)
+    {
+        string sql = "SELECT id, name FROM calendar WHERE project_id = :id";
+        DataTable dt = connection.ExecuteQuery(sql,
+            new OracleParameter("id", OracleDbType.Int32) { Value = project.Id }
+        );
+
+        var result = new HashSet<Calendar>();
+        foreach (DataRow row in dt.Rows)
+        {
+            string? name = row.Field<string>("name");
+            int id = Convert.ToInt32(row["id"]);
+
+            if(name == null) continue;
+
+            var calendar = new CalendarBuilder(id)
+                .WithName(name)
+                .WithProject(project)
+                .Build();
+            result.Add(calendar);
+        }
+        return result;
+    }
+
 }

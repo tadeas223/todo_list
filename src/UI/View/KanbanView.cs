@@ -110,7 +110,7 @@ public class KanbanView: UserControl
         stackPanel.Children.Add(new TextBlock
         {
             Text = header,
-            FontWeight = Avalonia.Media.FontWeight.Bold,
+            FontWeight = FontWeight.Bold,
             FontSize = 16,
             Margin = new Thickness(0, 0, 0, 5)
         });

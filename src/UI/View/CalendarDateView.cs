@@ -3,48 +3,44 @@ namespace UI.View;
 using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Layout;
-using Avalonia.Media;
-using Domain.Model;
 using Gdk;
 using UI.Components;
 
-public class ProjectSelectionView : UserControl
+public class CalendarDateView : UserControl
 {
+    public Button BackButton {get; private set;}
     public Button AddButton {get; private set;}
-    public Button LogoutButton {get; private set;}
     public TittleBarComponent TittleBar {get; private set;}
+
     public SelectionComponent Selection {get; private set;}
 
-    public ProjectSelectionView()
+    public CalendarDateView()
     {
-        HorizontalAlignment = HorizontalAlignment.Stretch;
-
-        Selection = new SelectionComponent();
-
-        AddButton = new Button
+        BackButton = new Button
         {
-            Content = "add",
+            Content = "back",
             HorizontalAlignment = HorizontalAlignment.Right,
             VerticalAlignment = VerticalAlignment.Center,
             Margin = new Thickness(0,0,5,0)
         };
-        
-        LogoutButton = new Button
+
+        AddButton = new Button
         {
-            Content = "logout",
+
+            Content = "add task",
             HorizontalAlignment = HorizontalAlignment.Right,
-            VerticalAlignment = VerticalAlignment.Center
+            VerticalAlignment = VerticalAlignment.Center,
+            Margin = new Thickness(0,0,5,0)
         };
 
-        TittleBar = new TittleBarComponent("projects",
-            AddButton, LogoutButton
-        );
+        TittleBar = new TittleBarComponent("", AddButton, BackButton);
+
+        Selection = new SelectionComponent();
 
         Content = new StackPanel
         {
             Margin = new Thickness(20),
             Spacing = 10,
-            VerticalAlignment = VerticalAlignment.Top,
             Children =
             {
                 TittleBar,

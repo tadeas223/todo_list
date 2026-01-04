@@ -52,6 +52,15 @@ public class MainWindow : ScrollViewer
             case "task":
                 controller = new TaskController(this);
                 break;
+            case "add_calendar":
+                controller = new AddCalendarController(this);
+                break;
+            case "calendar":
+                controller = new CalendarController(this);
+                break;
+            case "calendar_date":
+                controller = new CalendarDateController(this);
+                break;
         }
 
         if(controller == null)

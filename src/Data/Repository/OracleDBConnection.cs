@@ -125,7 +125,10 @@ public class OracleDBConnection : IDBConnection
             ExecuteNonQuery("""
             CREATE TABLE calendar (
                 id NUMBER GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
-                name VARCHAR2(50) NOT NULL
+                project_id NUMBER NOT NULL,
+                name VARCHAR2(50) NOT NULL,
+                CONSTRAINT fk_calendar_project FOREIGN KEY (project_id)
+                    REFERENCES project(id)
             )
             """);
             
@@ -134,6 +137,7 @@ public class OracleDBConnection : IDBConnection
                 id NUMBER GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
                 calendar_id NUMBER NOT NULL,
                 task_id NUMBER NOT NULL,
+                task_date DATE NOT NULL,
                 CONSTRAINT fk_calendar_task_calendar FOREIGN KEY (calendar_id)
                     REFERENCES calendar(id),
                 CONSTRAINT fk_calendar_task_task FOREIGN KEY (task_id)

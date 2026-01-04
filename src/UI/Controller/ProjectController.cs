@@ -32,14 +32,39 @@ public class ProjectController : IController
             main.StartUI("add_board", proj);
         };
         
+        view.AddCalendarButton.Click += (sender, e) =>
+        {
+            main.StartUI("add_calendar", proj);
+        };
+        
         try
         {
             var boardRepo = Provider.Instance.ProvideBoardRepository();
             foreach(var board in boardRepo.SelectByProject(proj))
             {
-                view.Selection.AddSquare(board.Name, (sender, e) =>
+                view.BoardSelection.AddSquare(board.Name, (sender, e) =>
                 {
                     main.StartUI("kanban", board, proj);
+                    return;
+                });
+            }
+        }
+        catch(Exception ex)
+        {
+            main.StartUI("error", ex.Message, () => {
+                main.StartUI("login");
+            });
+            return;
+        }
+
+        try
+        {
+            var calendarRepo = Provider.Instance.ProvideCalendarRepository();
+            foreach(var calendar in calendarRepo.SelectByProject(proj))
+            {
+                view.CalendarSelection.AddSquare(calendar.Name, (sender, e) =>
+                {
+                    main.StartUI("calendar", calendar, proj);
                     return;
                 });
             }
