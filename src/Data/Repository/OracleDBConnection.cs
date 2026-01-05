@@ -102,7 +102,7 @@ public class OracleDBConnection : IDBConnection
                 id NUMBER GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
                 name VARCHAR2(50) NOT NULL,
                 project_id NUMBER NOT NULL,
-                CONSTRAINT fk_board_project FOREIGN KEY (project_id)
+                FOREIGN KEY (project_id)
                     REFERENCES project(id)
                     ON DELETE CASCADE
             )
@@ -118,7 +118,7 @@ public class OracleDBConnection : IDBConnection
                 progress NUMBER(2,1) DEFAULT 0.0 CHECK (progress >= 0 AND progress <= 5),
                 finish_date DATE,
                 board_id NUMBER NOT NULL,
-                CONSTRAINT fk_task_board FOREIGN KEY (board_id)
+                FOREIGN KEY (board_id)
                     REFERENCES board(id)
                     ON DELETE CASCADE
             )
@@ -129,8 +129,9 @@ public class OracleDBConnection : IDBConnection
                 id NUMBER GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
                 project_id NUMBER NOT NULL,
                 name VARCHAR2(50) NOT NULL,
-                CONSTRAINT fk_calendar_project FOREIGN KEY (project_id)
+                FOREIGN KEY (project_id)
                     REFERENCES project(id)
+                    ON DELETE CASCADE
             )
             """);
             
@@ -140,10 +141,12 @@ public class OracleDBConnection : IDBConnection
                 calendar_id NUMBER NOT NULL,
                 task_id NUMBER NOT NULL,
                 task_date DATE NOT NULL,
-                CONSTRAINT fk_calendar_task_calendar FOREIGN KEY (calendar_id)
-                    REFERENCES calendar(id),
-                CONSTRAINT fk_calendar_task_task FOREIGN KEY (task_id)
+                FOREIGN KEY (calendar_id)
+                    REFERENCES calendar(id)
+                    ON DELETE CASCADE,
+                FOREIGN KEY (task_id)
                     REFERENCES task(id)
+                    ON DELETE CASCADE
             )
             """);
 
