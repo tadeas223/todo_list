@@ -5,7 +5,6 @@ using Avalonia.Controls;
 using Avalonia.Layout;
 using Avalonia.Media;
 using Domain.Model;
-using Gdk;
 using UI.Components;
 
 public class ProjectSelectionView : UserControl

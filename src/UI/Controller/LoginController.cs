@@ -3,6 +3,10 @@ namespace UI.Controller;
 using UI.View;
 using DI;
 
+using Domain.Model;
+using Avalonia.Interactivity;
+using Avalonia.Controls;
+
 public class LoginController : IController
 {
     private LoginView view;
@@ -16,6 +20,23 @@ public class LoginController : IController
 
     public void Start(params object[] args)
     {
+        Configuration? config = null; 
+        try
+        {
+            config = Provider.Instance
+                .ProvideConfigurationRepository("config.ini")
+                .Load();
+        }
+        catch(Exception) {}
+
+
+        if(config != null)
+        {
+            view.UsernameField.Text = config.Username;
+            view.PasswordField.Text = config.Password;
+            view.UrlField.Text = config.Url;
+        }
+
         view.LoginButton.Click += (sender, e) =>
         {
             string? url = view.UrlField.Text;

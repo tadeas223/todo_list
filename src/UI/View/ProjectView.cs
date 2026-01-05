@@ -4,13 +4,13 @@ using UI.Components;
 using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Layout;
-using Gdk;
 
 public class ProjectView : UserControl
 {
     public TittleBarComponent TittleBar { get; private set; }
     public Button DeleteProjectButton {get; private set;}
     public Button AddBoardButton {get; private set;}
+    public Button ImportBoardButton {get; private set;}
     public Button AddCalendarButton {get; private set;}
 
     public CheckBox LockedCheckBox {get; private set;}
@@ -91,6 +91,14 @@ public class ProjectView : UserControl
             Margin = new Thickness(0, 0, 5, 0)
         };
         
+        ImportBoardButton = new Button
+        {
+            Content = "import boards",
+            HorizontalAlignment = HorizontalAlignment.Right,
+            VerticalAlignment = VerticalAlignment.Center,
+            Margin = new Thickness(0, 0, 5, 0)
+        };
+        
         AddCalendarButton = new Button
         {
             Content = "add calendar",
@@ -106,7 +114,7 @@ public class ProjectView : UserControl
             VerticalAlignment = VerticalAlignment.Center
         };
 
-        TittleBar = new TittleBarComponent("", LockedCheckBox, AddBoardButton, AddCalendarButton, DeleteProjectButton, BackButton);
+        TittleBar = new TittleBarComponent("", LockedCheckBox, ImportBoardButton, AddBoardButton, AddCalendarButton, DeleteProjectButton, BackButton);
 
         Content = new StackPanel
         {

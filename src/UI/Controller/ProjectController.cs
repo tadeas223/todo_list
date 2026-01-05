@@ -3,6 +3,9 @@ namespace UI.Controller;
 using Domain.Model;
 using UI.View;
 using DI;
+using Avalonia.Controls;
+using Avalonia.Platform.Storage;
+using Data;
 
 public class ProjectController : IController
 {
@@ -113,6 +116,37 @@ public class ProjectController : IController
             {
                 main.StartUI("error", $"failed to update locked: {ex.Message}", () => main.StartUI("project", proj));
             }
+        };
+
+        view.ImportBoardButton.Click += async (sender, e) =>
+        {
+            var topLevel = TopLevel.GetTopLevel(view);
+            if(topLevel == null) return;
+
+            var files = await topLevel.StorageProvider.OpenFilePickerAsync(new FilePickerOpenOptions
+            {
+                Title = "open csv file",
+                AllowMultiple = false
+            });
+
+            if (files.Count >= 1)
+            {
+                string? path = files[0].TryGetLocalPath();
+                if(path == null) return;
+
+                try
+                {
+                    CsvBoardDataImport dataImport = new CsvBoardDataImport(proj, path);
+                    dataImport.Import();
+                }
+                catch(Exception ex)
+                {
+                    main.StartUI("error", $"failed to import boards: {ex.Message}", () => main.StartUI("project", proj));
+                    return;
+                }
+            }
+
+            main.StartUI("project", proj);
         };
 
         main.Present(view);

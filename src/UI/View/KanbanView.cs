@@ -19,7 +19,7 @@ public class KanbanView: UserControl
     public ItemsControl DoingItems { get; private set; }
     public ItemsControl DoneItems { get; private set; }
     public ItemsControl BacklogItems { get; private set; }
-
+    public Button ImportTaskButton {get; private set;} 
     private readonly ObservableCollection<Button> TodoCollection = new();
     private readonly ObservableCollection<Button> DoingCollection = new();
     private readonly ObservableCollection<Button> DoneCollection = new();
@@ -54,10 +54,19 @@ public class KanbanView: UserControl
             VerticalAlignment = VerticalAlignment.Center,
             Margin = new Thickness(0,0,5,0)
         };
+        
+        ImportTaskButton = new Button
+        {
+            Content = "import tasks",
+            HorizontalAlignment = HorizontalAlignment.Right,
+            VerticalAlignment = VerticalAlignment.Center,
+            Margin = new Thickness(0, 0, 5, 0)
+        };
 
         TittleBar = new TittleBarComponent("",
             AddTaskButton,
             DeleteBoardButton,
+            ImportTaskButton,
             BackButton);
 
         var grid = new Grid

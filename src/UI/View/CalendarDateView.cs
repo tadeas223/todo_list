@@ -3,7 +3,6 @@ namespace UI.View;
 using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Layout;
-using Gdk;
 using UI.Components;
 
 public class CalendarDateView : UserControl

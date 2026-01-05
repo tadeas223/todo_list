@@ -38,6 +38,7 @@ public class OracleDBConnection : IDBConnection
 
         using var cmd = connection!.CreateCommand();
         cmd.CommandText = sql;
+        cmd.BindByName = true;
 
         foreach (var value in parameters)
         {
@@ -64,6 +65,7 @@ public class OracleDBConnection : IDBConnection
             cmd.Parameters.Add(value);
         }
 
+        cmd.BindByName = true;
         return cmd.ExecuteNonQuery();
     }
     

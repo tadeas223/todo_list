@@ -3,7 +3,6 @@ namespace UI.Controller;
 using Domain.Model;
 using UI.View;
 using DI;
-using Cairo;
 
 public class AddBoardController : IController
 {

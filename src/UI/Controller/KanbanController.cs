@@ -1,6 +1,9 @@
 using UI.View;
 using DI;
 using Domain.Model;
+using Data;
+using Avalonia.Controls;
+using Avalonia.Platform.Storage;
 
 namespace UI.Controller;
 
@@ -46,7 +49,7 @@ public class KanbanController : IController
         {
             if(board.Project.Locked)
             {
-                main.StartUI("error", $"project is locked", () => main.StartUI("board", board));
+                main.StartUI("error", $"project is locked", () => main.StartUI("kanban", board));
                 return;
             }
 
@@ -57,7 +60,7 @@ public class KanbanController : IController
             }
             catch(Exception ex)
             {
-                main.StartUI("error", $"failed to delete board: {ex.Message}", () => main.StartUI("board", board));
+                main.StartUI("error", $"failed to delete board: {ex.Message}", () => main.StartUI("kanban", board));
             }
         };
 
@@ -65,10 +68,41 @@ public class KanbanController : IController
         {
             if(board.Project.Locked)
             {
-                main.StartUI("error", $"project is locked", () => main.StartUI("board", board));
+                main.StartUI("error", $"project is locked", () => main.StartUI("kanban", board));
             }
 
             main.StartUI("add_task", board);
+        };
+
+        view.ImportTaskButton.Click += async (sender, e) =>
+        {
+            var topLevel = TopLevel.GetTopLevel(view);
+            if(topLevel == null) return;
+
+            var files = await topLevel.StorageProvider.OpenFilePickerAsync(new FilePickerOpenOptions
+            {
+                Title = "open csv file",
+                AllowMultiple = false
+            });
+
+            if (files.Count >= 1)
+            {
+                string? path = files[0].TryGetLocalPath();
+                if(path == null) return;
+
+                try
+                {
+                    CsvTaskDataImport dataImport = new CsvTaskDataImport(board, path);
+                    dataImport.Import();
+                } 
+                catch(Exception ex)
+                {
+                    main.StartUI("error", $"failed to import tasks: {ex.Message}", () => main.StartUI("kanban", board));
+                    return;
+                }
+            }
+
+            main.StartUI("kanban", board);
         };
 
         main.Present(view);

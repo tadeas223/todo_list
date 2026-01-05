@@ -1,4 +1,5 @@
 using Data.Repository;
+using Domain;
 using Domain.Repository;
 
 namespace DI;
@@ -46,4 +47,9 @@ public class Provider
     {
         return new OracleDBTodoTaskRepository(dbConnection);
     }
+
+    public IniConfigurationRepository ProvideConfigurationRepository(string path)
+    {
+        return new IniConfigurationRepository(path);
+    } 
 }
