@@ -1,5 +1,8 @@
 using UI.View;
 using DI;
+using Avalonia.Controls;
+using Avalonia.Platform.Storage;
+using Data;
 
 namespace UI.Controller;
 
@@ -45,6 +48,37 @@ public class ProjectSelectionController : IController
         {
             main.StartUI("add_project");
             return;
+        };
+
+        view.ImportProjectButton.Click += async (sender ,e) =>
+        {
+            var topLevel = TopLevel.GetTopLevel(view);
+            if(topLevel == null) return;
+
+            var files = await topLevel.StorageProvider.OpenFilePickerAsync(new FilePickerOpenOptions
+            {
+                Title = "open csv file",
+                AllowMultiple = false
+            });
+
+            if (files.Count >= 1)
+            {
+                string? path = files[0].TryGetLocalPath();
+                if(path == null) return;
+
+                try
+                {
+                    CsvProjectDataImport dataImport = new CsvProjectDataImport(path);
+                    dataImport.Import();
+                } 
+                catch(Exception ex)
+                {
+                    main.StartUI("error", $"failed to import project: {ex.Message}", () => main.StartUI("project_selection"));
+                    return;
+                }
+            }
+
+            main.StartUI("project_selection");
         };
 
         main.Present(view);

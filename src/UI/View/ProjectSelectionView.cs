@@ -11,6 +11,7 @@ public class ProjectSelectionView : UserControl
 {
     public Button AddButton {get; private set;}
     public Button LogoutButton {get; private set;}
+    public Button ImportProjectButton {get; private set;}
     public TittleBarComponent TittleBar {get; private set;}
     public SelectionComponent Selection {get; private set;}
 
@@ -28,6 +29,15 @@ public class ProjectSelectionView : UserControl
             Margin = new Thickness(0,0,5,0)
         };
         
+        ImportProjectButton = new Button
+        {
+            Content = "import project",
+            HorizontalAlignment = HorizontalAlignment.Right,
+            VerticalAlignment = VerticalAlignment.Center,
+            Margin = new Thickness(0,0,5,0)
+        };
+        
+        
         LogoutButton = new Button
         {
             Content = "logout",
@@ -36,7 +46,7 @@ public class ProjectSelectionView : UserControl
         };
 
         TittleBar = new TittleBarComponent("projects",
-            AddButton, LogoutButton
+            AddButton, ImportProjectButton, LogoutButton
         );
 
         Content = new StackPanel
