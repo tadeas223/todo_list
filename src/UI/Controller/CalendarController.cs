@@ -18,7 +18,6 @@ public class CalendarController : IController
     public void Start(params object[] args)
     {
         Calendar calendar = (Calendar)args[0];
-        Project project = (Project)args[1];
 
         var calendarRepo = Provider.Instance.ProvideCalendarRepository();
         
@@ -26,7 +25,7 @@ public class CalendarController : IController
 
         view.BackButton.Click += (sender, e) =>
         {
-            main.StartUI("project", project);   
+            main.StartUI("project", calendar.Project);   
         };
 
         view.DeleteButton.Click += (sender, e) =>
@@ -34,12 +33,12 @@ public class CalendarController : IController
             try
             {
                 calendarRepo.Delete(calendar);
-                main.StartUI("project", project);
+                main.StartUI("project", calendar.Project);
                 return;
             }
             catch(Exception ex)
             {
-                main.StartUI("error", $"error while deleting calendar: {ex.Message}", () => main.StartUI("calendar", calendar, project));
+                main.StartUI("error", $"error while deleting calendar: {ex.Message}", () => main.StartUI("calendar", calendar));
             }
         };
 
@@ -49,11 +48,11 @@ public class CalendarController : IController
 
             if(date == null)
             {
-                main.StartUI("calendar", calendar, project);
+                main.StartUI("calendar", calendar);
                 return;
             }
 
-            main.StartUI("calendar_date", calendar, date, project);
+            main.StartUI("calendar_date", calendar, date);
         };
 
         main.Present(view);

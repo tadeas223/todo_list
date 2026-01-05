@@ -18,6 +18,7 @@ public class KanbanController : IController
     public void Start(params object[] args)
     {
         Board board = (Board)args[0];
+
         var taskRepo = Provider.Instance.ProvideTodoTaskRepository();
         HashSet<TodoTask> todoTasks = new HashSet<TodoTask>();
         try
@@ -26,7 +27,7 @@ public class KanbanController : IController
         }
         catch(Exception ex)
         {
-            main.StartUI("error", $"failed while fetching tasks: {ex.Message}", () => main.StartUI("board", args[0]));
+            main.StartUI("error", $"failed while fetching tasks: {ex.Message}", () => main.StartUI("board", board));
             return;
         }
 
@@ -34,29 +35,29 @@ public class KanbanController : IController
         {
             view.AddTask(task, (sender ,e) =>
             {
-                main.StartUI("task", task, args[0], args[1]);
+                main.StartUI("task", task, board);
             });
         }
 
         view.TittleBar.TittleText.Text = board.Name;
 
-        view.BackButton.Click += (sender, e) => main.StartUI("project", args[1]);
+        view.BackButton.Click += (sender, e) => main.StartUI("project", board.Project);
         view.DeleteBoardButton.Click += (sender ,e) =>
         {
             try
             {
                 Provider.Instance.ProvideBoardRepository().Delete(board);
-                main.StartUI("project", args[1]);
+                main.StartUI("project", board.Project);
             }
             catch(Exception ex)
             {
-                main.StartUI("error", $"failed to delete board: {ex.Message}", () => main.StartUI("board", args));
+                main.StartUI("error", $"failed to delete board: {ex.Message}", () => main.StartUI("board", board));
             }
         };
 
         view.AddTaskButton.Click += (sender, e) =>
         {
-            main.StartUI("add_task", board, args[1]);
+            main.StartUI("add_task", board);
         };
 
         main.Present(view);

@@ -91,7 +91,7 @@ public class ProjectController : IController
             }
             catch(Exception ex)
             {
-                main.StartUI("error", "failed to update locked: {ex.Message}", () => main.StartUI("project", proj));
+                main.StartUI("error", $"failed to update locked: {ex.Message}", () => main.StartUI("project", proj));
             }
         };
 

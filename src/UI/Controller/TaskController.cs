@@ -17,9 +17,7 @@ public class TaskController : IController
     public void Start(params object[] args)
     {
         TodoTask task = (TodoTask) args[0];
-        Board board = (Board) args[1];
-        Project project = (Project) args[2];
-
+        
         view.NameField.Text = task.Name;
         view.DescField.Text = task.Desc ?? "";
         view.StateSelect.SelectedValue = task.State.ToString();
@@ -32,7 +30,7 @@ public class TaskController : IController
 
         view.BackButton.Click += (sender, e) =>
         {
-            main.StartUI("kanban", board, project);
+            main.StartUI("kanban", task.Board);
         };
 
         view.DeleteButton.Click += (sender, e) =>
@@ -43,11 +41,11 @@ public class TaskController : IController
             }
             catch(Exception ex)
             {
-                main.StartUI("error", $"error while updating task: {ex.Message}", () => main.StartUI("kanban", board, project));
+                main.StartUI("error", $"error while updating task: {ex.Message}", () => main.StartUI("kanban", task.Board));
                 return;
             }
 
-            main.StartUI("kanban", args[1], args[2]);
+            main.StartUI("kanban", task.Board);
         };
 
         view.UpdateButton.Click += (sender, e) =>
@@ -71,16 +69,16 @@ public class TaskController : IController
             }
             catch(Exception ex)
             {
-                main.StartUI("error", $"error while updating task: {ex.Message}", () => main.StartUI("kanban", board, project));
+                main.StartUI("error", $"error while updating task: {ex.Message}", () => main.StartUI("kanban", task.Board));
                 return;
             }
 
-            main.StartUI("kanban", board, project);
+            main.StartUI("kanban", task.Board);
         };
 
         view.AddToCalendarButton.Click += (sender, e) =>
         {
-            main.StartUI("add_to_calendar", task, board, project);
+            main.StartUI("add_to_calendar", task);
         };
 
         main.Present(view);

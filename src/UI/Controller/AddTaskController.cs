@@ -47,7 +47,7 @@ public class AddTaskController : IController
 
                 taskRepo.Insert(ref task);
 
-                main.StartUI("kanban", board, args[1]);
+                main.StartUI("kanban", board, board.Project);
                 return;
             }
             catch(Exception ex)

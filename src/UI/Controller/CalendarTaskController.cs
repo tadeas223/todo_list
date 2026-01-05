@@ -17,10 +17,8 @@ public class CalendarTaskController : IController
     public void Start(params object[] args)
     {
         TodoTask task = (TodoTask) args[0];
-        Board board = (Board) args[1];
-        Project project = (Project) args[2];
-        Calendar calendar = (Calendar) args[3];
-        DateTime date = (DateTime) args[4];
+        Calendar calendar = (Calendar) args[1];
+        DateTime date = (DateTime) args[2];
 
         view.NameField.Text = task.Name;
         view.DescField.Text = task.Desc ?? "";
@@ -34,7 +32,7 @@ public class CalendarTaskController : IController
 
         view.BackButton.Click += (sender, e) =>
         {
-            main.StartUI("calendar_date", calendar, date, project);
+            main.StartUI("calendar_date", calendar, date);
         };
 
         view.DeleteButton.Click += (sender, e) =>
@@ -42,12 +40,12 @@ public class CalendarTaskController : IController
             try
             {
                 Provider.Instance.ProvideCalendarRepository().DeleteTask(calendar, task);
-                main.StartUI("calendar_date", calendar, date, project);
+                main.StartUI("calendar_date", calendar, date);
                 return;
             }
             catch(Exception ex)
             {
-                main.StartUI("error", $"error while deleting task: {ex.Message}", () => main.StartUI("kanban", board, project));
+                main.StartUI("error", $"error while deleting task: {ex.Message}", () => main.StartUI("kanban", task.Board));
                 return;
             }
         };
@@ -73,11 +71,11 @@ public class CalendarTaskController : IController
             }
             catch(Exception ex)
             {
-                main.StartUI("error", $"error while updating task: {ex.Message}", () => main.StartUI("calendar_date", calendar, date, project));
+                main.StartUI("error", $"error while updating task: {ex.Message}", () => main.StartUI("calendar_date", calendar, date));
                 return;
             }
 
-            main.StartUI("calendar_date", calendar, date, project);
+            main.StartUI("calendar_date", calendar, date);
         };
 
         main.Present(view);

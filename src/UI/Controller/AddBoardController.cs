@@ -18,6 +18,8 @@ public class AddBoardController : IController
 
     public void Start(params object[] args)
     {
+        Project project = (Project) args[0];
+
         view.AddButton.Click += (sender, e) => {
             var boardRepo = Provider.Instance.ProvideBoardRepository();
 
@@ -30,7 +32,7 @@ public class AddBoardController : IController
 
             try
             {
-                var board = new BoardBuilder().WithName(name!).WithProject((Project)args[0]).Build();
+                var board = new BoardBuilder().WithName(name!).WithProject(project).Build();
                 boardRepo.Insert(ref board);
             }
             catch(Exception ex)

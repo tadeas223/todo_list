@@ -20,18 +20,16 @@ public class AddToCalendarController : IController
     public void Start(params object[] args)
     {
         TodoTask task = (TodoTask)args[0];
-        Board board = (Board)args[1];
-        Project project = (Project)args[2];
         
         view.BackButton.Click += (sender, e) =>
         {
-            main.StartUI("task", board, task, project);
+            main.StartUI("task", task);
         };
 
         var calendarRepo = Provider.Instance.ProvideCalendarRepository();
         try
         {
-            foreach(Calendar c in calendarRepo.SelectByProject((Project)args[2]))
+            foreach(Calendar c in calendarRepo.SelectByProject(task.Board.Project))
             {
                 view.CalendarSelection.AddSquare(c.Name, (sender ,e) =>
                 {
@@ -43,7 +41,7 @@ public class AddToCalendarController : IController
         catch(Exception ex)
         {
             main.StartUI("error", $"failed to select calendars: {ex.Message}",
-             () => main.StartUI("task", board, task, project));        
+             () => main.StartUI("task", task));        
         }
 
         view.Calendar.SelectedDatesChanged += (sender ,e) =>
@@ -56,18 +54,25 @@ public class AddToCalendarController : IController
             if(selectedCalendar == null || selectedDate == null)
             {
                 main.StartUI("error", $"missing fields",
-                 () => main.StartUI("add_to_calendar", task, board, project));        
+                 () => main.StartUI("add_to_calendar", task));        
             }
 
             try
             {
+                if(selectedCalendar == null || !selectedDate.HasValue)
+                {
+                    main.StartUI("error", $"select a calendar and date",
+                        () => main.StartUI("add_to_calendar", task));
+                    return;        
+                }
+
                 calendarRepo.InsertTask(selectedCalendar!, selectedDate!.Value, task);
-                main.StartUI("task", task, board,  project);
+                main.StartUI("task", task);
             }
             catch(Exception ex)
             {
                 main.StartUI("error", $"failed to insert task: {ex.Message}",
-                 () => main.StartUI("task", task, board,  project));        
+                 () => main.StartUI("add_to_calendar", task));        
             }
 
         };

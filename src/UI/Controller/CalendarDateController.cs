@@ -19,13 +19,12 @@ public class CalendarDateController : IController
     {
         Calendar calendar = (Calendar)args[0];
         DateTime date = (DateTime)args[1];
-        Project project = (Project)args[2];
 
         view.TittleBar.TittleText.Text = date.ToShortDateString();
 
         view.BackButton.Click += (sender ,e) =>
         {
-            main.StartUI("calendar", calendar, project);   
+            main.StartUI("calendar", calendar);   
         };
 
             var calendarRepo = Provider.Instance.ProvideCalendarRepository();
@@ -34,7 +33,7 @@ public class CalendarDateController : IController
             {
                 main.StartUI("error", "date does not have any tasks", () =>
                 {
-                    main.StartUI("calendar", calendar, project);
+                    main.StartUI("calendar", calendar);
                 });
                 return;
             }
@@ -42,7 +41,7 @@ public class CalendarDateController : IController
             {
                 view.Selection.AddSquare(task.Name, (sender ,e) =>
                 {
-                    main.StartUI("calendar_task", task, task.Board, project, calendar, date);
+                    main.StartUI("calendar_task", task, calendar, date);
                 });
             }
         try
@@ -51,7 +50,7 @@ public class CalendarDateController : IController
         }
         catch(Exception ex)
         {
-            main.StartUI("error", $"falied to load tasks: {ex.Message}", () => main.StartUI("calendar", calendar, project));
+            main.StartUI("error", $"falied to load tasks: {ex.Message}", () => main.StartUI("calendar", calendar));
             return;
         }
 
