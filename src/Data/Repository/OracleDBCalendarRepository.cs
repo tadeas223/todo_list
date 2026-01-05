@@ -196,7 +196,6 @@ public class OracleDBCalendarRepository: ICalendarRepository
         foreach (DataRow row in dt.Rows)
         {
             int taskId = Convert.ToInt32(row["task_id"]);
-            int calendarId = Convert.ToInt32(row["calendar_id"]);
             DateTime date = row.Field<DateTime>("task_date");
             TodoTask? task = Provider.Instance.ProvideTodoTaskRepository().SelectById(taskId);
             if(task == null) continue;

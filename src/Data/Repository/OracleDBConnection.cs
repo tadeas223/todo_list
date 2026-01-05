@@ -94,7 +94,7 @@ public class OracleDBConnection : IDBConnection
                 id NUMBER GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
                 name VARCHAR2(50) NOT NULL,
                 locked NUMBER(1) DEFAULT 0 CHECK (locked IN (0, 1))
-           )
+            )
         """);
 
         ExecuteNonQuery("""
@@ -106,9 +106,9 @@ public class OracleDBConnection : IDBConnection
                     REFERENCES project(id)
                     ON DELETE CASCADE
             )
-            """);
+        """);
 
-            ExecuteNonQuery("""
+        ExecuteNonQuery("""
             CREATE TABLE task (
                 id NUMBER GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
                 name VARCHAR2(50) NOT NULL,
@@ -122,9 +122,9 @@ public class OracleDBConnection : IDBConnection
                     REFERENCES board(id)
                     ON DELETE CASCADE
             )
-            """);
+        """);
 
-            ExecuteNonQuery("""
+        ExecuteNonQuery("""
             CREATE TABLE calendar (
                 id NUMBER GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
                 project_id NUMBER NOT NULL,
@@ -133,9 +133,9 @@ public class OracleDBConnection : IDBConnection
                     REFERENCES project(id)
                     ON DELETE CASCADE
             )
-            """);
-            
-            ExecuteNonQuery("""
+        """);
+        
+        ExecuteNonQuery("""
             CREATE TABLE calendar_task (
                 id NUMBER GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
                 calendar_id NUMBER NOT NULL,
@@ -148,7 +148,7 @@ public class OracleDBConnection : IDBConnection
                     REFERENCES task(id)
                     ON DELETE CASCADE
             )
-            """);
+        """);
 
         connection.Close();
     }
