@@ -51,6 +51,12 @@ public class AddToCalendarController : IController
 
         view.AddButton.Click += (sender, e) =>
         {
+            if(task.Board.Project.Locked)
+            {
+                main.StartUI("error", $"project is locked", () => main.StartUI("add_to_calendar", task));
+                return;
+            }
+
             if(selectedCalendar == null || selectedDate == null)
             {
                 main.StartUI("error", $"missing fields",

@@ -37,6 +37,12 @@ public class CalendarTaskController : IController
 
         view.DeleteButton.Click += (sender, e) =>
         {
+            if(calendar.Project.Locked)
+            {
+                main.StartUI("error", $"project is locked", () => main.StartUI("calendar_task", task, calendar));
+                return;
+            }
+
             try
             {
                 Provider.Instance.ProvideCalendarRepository().DeleteTask(calendar, task);
@@ -52,6 +58,12 @@ public class CalendarTaskController : IController
 
         view.UpdateButton.Click += (sender, e) =>
         {
+            if(calendar.Project.Locked)
+            {
+                main.StartUI("error", $"project is locked", () => main.StartUI("calendar_task", task, calendar));
+                return;
+            }
+
             string? name = view.NameField.Text;
             string? desc = view.DescField.Text;
             TaskState state = (TaskState)Enum.Parse(typeof(TaskState), (string)view.StateSelect.SelectedValue!);

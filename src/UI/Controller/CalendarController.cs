@@ -30,6 +30,12 @@ public class CalendarController : IController
 
         view.DeleteButton.Click += (sender, e) =>
         {
+            if(calendar.Project.Locked)
+            {
+                main.StartUI("error", $"project is locked", () => main.StartUI("calendar", calendar));
+                return;
+            }
+
             try
             {
                 calendarRepo.Delete(calendar);

@@ -20,20 +20,41 @@ public class ProjectController : IController
 
         view.TittleBar.TittleText.Text = proj.Name;
 
+        view.LockedCheckBox.IsChecked = proj.Locked;
+
         view.BackButton.Click += (sender, e) => main.StartUI("project_selection");
         view.DeleteProjectButton.Click += (sender, e) =>
         {
+            if(proj.Locked)
+            {
+                main.StartUI("error", $"project is locked", () => main.StartUI("project", proj));
+                return;
+            }
+
             Provider.Instance.ProvideProjectRepository().Delete(proj);
             main.StartUI("project_selection");
         };
         
         view.AddBoardButton.Click += (sender, e) =>
         {
+            if(proj.Locked)
+            {
+                main.StartUI("error", $"project is locked", () => main.StartUI("project", proj));
+                return;
+            }
+
             main.StartUI("add_board", proj);
         };
         
         view.AddCalendarButton.Click += (sender, e) =>
         {
+
+            if(proj.Locked)
+            {
+                main.StartUI("error", $"project is locked", () => main.StartUI("project", proj));
+                return;
+            }
+
             main.StartUI("add_calendar", proj);
         };
         
@@ -79,15 +100,14 @@ public class ProjectController : IController
 
         view.LockedCheckBox.IsCheckedChanged += (sender ,e) =>
         {
-            if(!view.LockedCheckBox.IsChecked.HasValue) return;
-
             try
             {
-                Provider.Instance.ProvideProjectRepository().Update(
-                    new ProjectBuilder(proj)
+                Project newProject = new ProjectBuilder(proj)
                     .WithLocked(view.LockedCheckBox.IsChecked!.Value)
-                    .Build()
-                );
+                    .Build();
+
+                Provider.Instance.ProvideProjectRepository().Update(newProject);
+                proj = newProject;
             }
             catch(Exception ex)
             {

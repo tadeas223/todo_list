@@ -18,8 +18,15 @@ public class AddCalendarController : IController
     public void Start(params object[] args)
     {
         Project project = (Project)args[0];
+
         view.AddButton.Click += (sender, e) =>
         {
+            if(project.Locked)
+            {
+                main.StartUI("error", $"project is locked", () => main.StartUI("add_calendar", project));
+                return;
+            }
+
             var calendarRepo = Provider.Instance.ProvideCalendarRepository();
 
             string? name = view.NameField.Text;

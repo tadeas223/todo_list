@@ -21,12 +21,18 @@ public class AddBoardController : IController
         Project project = (Project) args[0];
 
         view.AddButton.Click += (sender, e) => {
+            if(project.Locked)
+            {
+                main.StartUI("error", $"project is locked", () => main.StartUI("add_baord", project));
+                return;
+            }
+
             var boardRepo = Provider.Instance.ProvideBoardRepository();
 
             string? name = view.NameField.Text;
             if(name == null)
             {
-                main.StartUI("error", "missing fields", () => main.StartUI("add_board"));
+                main.StartUI("error", "missing fields", () => main.StartUI("add_board", project));
                 return;
             }
 
@@ -37,7 +43,7 @@ public class AddBoardController : IController
             }
             catch(Exception ex)
             {
-                main.StartUI("error", $"error while adding new board: {ex.Message}", () => main.StartUI("project", (Project)args[0]));
+                main.StartUI("error", $"error while adding new board: {ex.Message}", () => main.StartUI("project", project));
                 return;
             }
 

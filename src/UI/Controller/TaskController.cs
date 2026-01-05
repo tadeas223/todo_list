@@ -35,6 +35,12 @@ public class TaskController : IController
 
         view.DeleteButton.Click += (sender, e) =>
         {
+            if(task.Board.Project.Locked)
+            {
+                main.StartUI("error", $"project is locked", () => main.StartUI("task", task));
+                return;
+            }
+
             try
             {
                 Provider.Instance.ProvideTodoTaskRepository().Delete(task);
@@ -50,6 +56,12 @@ public class TaskController : IController
 
         view.UpdateButton.Click += (sender, e) =>
         {
+            if(task.Board.Project.Locked)
+            {
+                main.StartUI("error", $"project is locked", () => main.StartUI("task", task));
+                return;
+            }
+
             string? name = view.NameField.Text;
             string? desc = view.DescField.Text;
             TaskState state = (TaskState)Enum.Parse(typeof(TaskState), (string)view.StateSelect.SelectedValue!);
@@ -78,6 +90,12 @@ public class TaskController : IController
 
         view.AddToCalendarButton.Click += (sender, e) =>
         {
+            if(task.Board.Project.Locked)
+            {
+                main.StartUI("error", $"project is locked", () => main.StartUI("task", task));
+                return;
+            }
+
             main.StartUI("add_to_calendar", task);
         };
 

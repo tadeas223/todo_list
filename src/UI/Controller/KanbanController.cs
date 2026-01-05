@@ -44,6 +44,12 @@ public class KanbanController : IController
         view.BackButton.Click += (sender, e) => main.StartUI("project", board.Project);
         view.DeleteBoardButton.Click += (sender ,e) =>
         {
+            if(board.Project.Locked)
+            {
+                main.StartUI("error", $"project is locked", () => main.StartUI("board", board));
+                return;
+            }
+
             try
             {
                 Provider.Instance.ProvideBoardRepository().Delete(board);
@@ -57,6 +63,11 @@ public class KanbanController : IController
 
         view.AddTaskButton.Click += (sender, e) =>
         {
+            if(board.Project.Locked)
+            {
+                main.StartUI("error", $"project is locked", () => main.StartUI("board", board));
+            }
+
             main.StartUI("add_task", board);
         };
 

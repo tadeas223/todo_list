@@ -22,6 +22,12 @@ public class AddTaskController : IController
         view.TittleBar.TittleText.Text = board.Name;
         view.AddButton.Click += (sender, e) =>
         {
+            if(board.Project.Locked)
+            {
+                main.StartUI("error", $"project is locked", () => main.StartUI("add_task", board));
+                return;
+            }
+
             string? name = view.NameField.Text;
             string? desc = view.DescField.Text;
             TaskState state = (TaskState)Enum.Parse(typeof(TaskState), (string)view.StateSelect.SelectedValue!);
