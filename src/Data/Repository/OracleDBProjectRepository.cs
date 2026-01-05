@@ -40,7 +40,7 @@ public class OracleDBProjectRepository: IProjectRepository
 
     public void Update(Project project)
     {
-        string sql = "UPDATE project SET name = :name WHERE id = :id";
+        string sql = "UPDATE project SET name = :name, locked = :locked WHERE id = :id";
 
         if(project.Id == null)
         {
@@ -48,7 +48,8 @@ public class OracleDBProjectRepository: IProjectRepository
         }
         connection.ExecuteNonQuery(sql, 
             new OracleParameter("id", OracleDbType.Int32) { Value = project.Id }, 
-            new OracleParameter("name", OracleDbType.Varchar2) { Value = project.Name }
+            new OracleParameter("name", OracleDbType.Varchar2) { Value = project.Name },
+            new OracleParameter("locked", OracleDbType.Int32) { Value = project.Locked? 1 : 0 }
         );
     }
 

@@ -77,6 +77,24 @@ public class ProjectController : IController
             return;
         }
 
+        view.LockedCheckBox.IsCheckedChanged += (sender ,e) =>
+        {
+            if(!view.LockedCheckBox.IsChecked.HasValue) return;
+
+            try
+            {
+                Provider.Instance.ProvideProjectRepository().Update(
+                    new ProjectBuilder(proj)
+                    .WithLocked(view.LockedCheckBox.IsChecked!.Value)
+                    .Build()
+                );
+            }
+            catch(Exception ex)
+            {
+                main.StartUI("error", "failed to update locked: {ex.Message}", () => main.StartUI("project", proj));
+            }
+        };
+
         main.Present(view);
     }
 }

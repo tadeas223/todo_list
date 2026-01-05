@@ -13,6 +13,7 @@ public class ProjectView : UserControl
     public Button AddBoardButton {get; private set;}
     public Button AddCalendarButton {get; private set;}
 
+    public CheckBox LockedCheckBox {get; private set;}
     public Button BackButton {get; private set;}
     
     public SelectionComponent BoardSelection {get; private set;}
@@ -32,6 +33,12 @@ public class ProjectView : UserControl
 
         BoardLabel = new TextBlock { Text = "boards: " };
         CalendarLabel = new TextBlock { Text = "calendars: " };
+        
+        LockedCheckBox = new CheckBox
+        {
+            Content = "lock",
+            IsChecked = false
+        };
 
         SelectionGrid = new Grid();
         SelectionGrid.ColumnDefinitions = new ColumnDefinitions("1*,1*");
@@ -99,7 +106,7 @@ public class ProjectView : UserControl
             VerticalAlignment = VerticalAlignment.Center
         };
 
-        TittleBar = new TittleBarComponent("", AddBoardButton, AddCalendarButton, DeleteProjectButton, BackButton);
+        TittleBar = new TittleBarComponent("", LockedCheckBox, AddBoardButton, AddCalendarButton, DeleteProjectButton, BackButton);
 
         Content = new StackPanel
         {
