@@ -148,21 +148,21 @@ public class OracleDBConnection : IDBConnection
                 GROUP BY p.name, b.name
         """);
 
-//        ExecuteNonQuery("""
-//            CREATE VIEW v_project_kanban_stat AS
-//                SELECT
-//                    p.name AS project_name,
-//                    b.name AS board_name,
-//                    SUM(CASE WHEN t.state = 'todo' THEN 1 ELSE 0 END) AS todo_count,
-//                    SUM(CASE WHEN t.state = 'doing' THEN 1 ELSE 0 END) AS doing_count,
-//                    SUM(CASE WHEN t.state = 'done' THEN 1 ELSE 0 END) AS done_count,
-//                    SUM(CASE WHEN t.state = 'backlog' THEN 1 ELSE 0 END) AS backlog_count
-//                FROM project p
-//                JOIN board b ON b.project_id = p.id
-//                JOIN task t ON t.board_id = b.id 
-//                GROUP BY p.id, b.id
-//        """
-//        );
+        ExecuteNonQuery("""
+            CREATE VIEW v_project_kanban_stat AS
+            SELECT
+                p.name AS project_name,
+                b.name AS board_name,
+                SUM(CASE WHEN t.state = 'todo' THEN 1 ELSE 0 END) AS todo_count,
+                SUM(CASE WHEN t.state = 'doing' THEN 1 ELSE 0 END) AS doing_count,
+                SUM(CASE WHEN t.state = 'done' THEN 1 ELSE 0 END) AS done_count,
+                SUM(CASE WHEN t.state = 'backlog' THEN 1 ELSE 0 END) AS backlog_count
+            FROM project p
+            JOIN board b ON b.project_id = p.id
+            JOIN task t ON t.board_id = b.id 
+            GROUP BY p.id, p.name, b.id, b.name
+        """
+        );
 
         connection.Close();
     }

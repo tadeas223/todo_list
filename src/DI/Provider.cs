@@ -58,4 +58,9 @@ public class Provider
     {
         return new OracleDBProgressReportGen();
     } 
+    
+    public IKanbanReportGen ProvideKanbanReportGen()
+    {
+        return new OracleDBKanbanReportGen();
+    } 
 }

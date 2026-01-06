@@ -85,6 +85,11 @@ public class ProjectSelectionController : IController
         {
             main.StartUI("progress_report");
         };
+        
+        view.TaskCountReportButton.Click += (sender ,e) =>
+        {
+            main.StartUI("kanban_report");
+        };
 
         main.Present(view);
     }

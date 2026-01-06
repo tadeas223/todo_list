@@ -70,6 +70,9 @@ public class MainWindow : ScrollViewer
             case "progress_report":
                 controller = new ProgressReportController(this);
                 break;
+            case "kanban_report":
+                controller = new KanbanReportController(this);
+                break;
         }
 
         if(controller == null)

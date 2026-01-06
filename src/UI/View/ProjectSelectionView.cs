@@ -39,8 +39,21 @@ public class ProjectSelectionView : UserControl
             Margin = new Thickness(0,0,5,0)
         };
         
-        ProgressReportButton = new Button { Content = "progress report" };
-        TaskCountReportButton = new Button { Content = "task count report" };
+        ProgressReportButton = new Button 
+        { 
+            Content = "progress report",
+            HorizontalAlignment = HorizontalAlignment.Right,
+            VerticalAlignment = VerticalAlignment.Center,
+            Margin = new Thickness(0,0,5,0)
+        };
+
+        TaskCountReportButton = new Button 
+        { 
+            Content = "kanban report",
+            HorizontalAlignment = HorizontalAlignment.Right,
+            VerticalAlignment = VerticalAlignment.Center,
+            Margin = new Thickness(0,0,5,0)
+        };
         
         LogoutButton = new Button
         {
