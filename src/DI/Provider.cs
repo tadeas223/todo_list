@@ -1,3 +1,4 @@
+using Data;
 using Data.Repository;
 using Domain;
 using Domain.Repository;
@@ -51,5 +52,10 @@ public class Provider
     public IniConfigurationRepository ProvideConfigurationRepository(string path)
     {
         return new IniConfigurationRepository(path);
+    }
+
+    public IProgressReportGen ProvideProgressReportGen()
+    {
+        return new OracleDBProgressReportGen();
     } 
 }

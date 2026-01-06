@@ -68,7 +68,7 @@ public class AddTaskController : IController
 
         view.BackButton.Click += (sender, e) =>
         {
-            main.StartUI("kanban", board, args[1]);
+            main.StartUI("kanban", board);
         };
 
 

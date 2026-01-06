@@ -67,6 +67,9 @@ public class MainWindow : ScrollViewer
             case "calendar_task":
                 controller = new CalendarTaskController(this);
                 break;
+            case "progress_report":
+                controller = new ProgressReportController(this);
+                break;
         }
 
         if(controller == null)

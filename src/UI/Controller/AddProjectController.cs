@@ -8,6 +8,7 @@ public class AddProjectController : IController
 {
     private MainWindow main;
     private AddProjectView view;
+    private List<string> boards = new();
 
     public AddProjectController(MainWindow main)
     {
@@ -39,6 +40,22 @@ public class AddProjectController : IController
             }
 
             main.StartUI("project_selection");
+        };
+
+        view.BackButton.Click += (sender, e) =>
+        {
+            main.StartUI("project_selection");
+        };
+
+        view.AddBoardButton.Click += (sender ,e) =>
+        {
+            if(view.BoardField.Text == null) return;
+            boards.Add(view.BoardField.Text!);
+
+            view.SetBoardList(boards.ToArray(), (index) => 
+            {
+                boards.RemoveAt(index);
+            });
         };
 
         main.Present(view);

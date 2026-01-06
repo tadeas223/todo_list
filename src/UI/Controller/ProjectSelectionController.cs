@@ -81,6 +81,11 @@ public class ProjectSelectionController : IController
             main.StartUI("project_selection");
         };
 
+        view.ProgressReportButton.Click += (sender ,e) =>
+        {
+            main.StartUI("progress_report");
+        };
+
         main.Present(view);
     }
 }

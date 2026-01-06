@@ -92,7 +92,7 @@ public class OracleDBConnection : IDBConnection
         ExecuteNonQuery("""
             CREATE TABLE project (
                 id NUMBER GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
-                name VARCHAR2(50) NOT NULL,
+                name VARCHAR2(50) UNIQUE NOT NULL,
                 locked NUMBER(1) DEFAULT 0 CHECK (locked IN (0, 1))
             )
         """);
@@ -100,7 +100,7 @@ public class OracleDBConnection : IDBConnection
         ExecuteNonQuery("""
             CREATE TABLE board (
                 id NUMBER GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
-                name VARCHAR2(50) NOT NULL,
+                name VARCHAR2(50) UNIQUE NOT NULL,
                 project_id NUMBER NOT NULL,
                 FOREIGN KEY (project_id)
                     REFERENCES project(id)
@@ -136,19 +136,33 @@ public class OracleDBConnection : IDBConnection
         """);
         
         ExecuteNonQuery("""
-            CREATE TABLE calendar_task (
-                id NUMBER GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
-                calendar_id NUMBER NOT NULL,
-                task_id NUMBER NOT NULL,
-                task_date DATE NOT NULL,
-                FOREIGN KEY (calendar_id)
-                    REFERENCES calendar(id)
-                    ON DELETE CASCADE,
-                FOREIGN KEY (task_id)
-                    REFERENCES task(id)
-                    ON DELETE CASCADE
-            )
+            CREATE VIEW v_project_board_progress AS
+                SELECT
+                    p.name AS project_name,
+                    b.name AS board_name,
+                    COUNT(t.id) AS task_count,
+                    ROUND(AVG(t.progress), 1) AS avg_progress
+                FROM project p
+                JOIN board b ON b.project_id = p.id
+                LEFT JOIN task t ON t.board_id = b.id
+                GROUP BY p.name, b.name
         """);
+
+//        ExecuteNonQuery("""
+//            CREATE VIEW v_project_kanban_stat AS
+//                SELECT
+//                    p.name AS project_name,
+//                    b.name AS board_name,
+//                    SUM(CASE WHEN t.state = 'todo' THEN 1 ELSE 0 END) AS todo_count,
+//                    SUM(CASE WHEN t.state = 'doing' THEN 1 ELSE 0 END) AS doing_count,
+//                    SUM(CASE WHEN t.state = 'done' THEN 1 ELSE 0 END) AS done_count,
+//                    SUM(CASE WHEN t.state = 'backlog' THEN 1 ELSE 0 END) AS backlog_count
+//                FROM project p
+//                JOIN board b ON b.project_id = p.id
+//                JOIN task t ON t.board_id = b.id 
+//                GROUP BY p.id, b.id
+//        """
+//        );
 
         connection.Close();
     }

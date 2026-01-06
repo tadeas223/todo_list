@@ -4,6 +4,8 @@ using UI.Components;
 using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Layout;
+using Avalonia.Reactive;
+
 
 public class ProjectView : UserControl
 {
@@ -24,7 +26,6 @@ public class ProjectView : UserControl
     
     public TextBlock BoardLabel {get; private set;}
     public TextBlock CalendarLabel {get; private set;}
-    
     public Grid SelectionGrid {get; private set;}
 
     public ProjectView()

@@ -12,6 +12,8 @@ public class ProjectSelectionView : UserControl
     public Button AddButton {get; private set;}
     public Button LogoutButton {get; private set;}
     public Button ImportProjectButton {get; private set;}
+    public Button ProgressReportButton {get; private set;}
+    public Button TaskCountReportButton {get; private set;}
     public TittleBarComponent TittleBar {get; private set;}
     public SelectionComponent Selection {get; private set;}
 
@@ -37,6 +39,8 @@ public class ProjectSelectionView : UserControl
             Margin = new Thickness(0,0,5,0)
         };
         
+        ProgressReportButton = new Button { Content = "progress report" };
+        TaskCountReportButton = new Button { Content = "task count report" };
         
         LogoutButton = new Button
         {
@@ -46,7 +50,11 @@ public class ProjectSelectionView : UserControl
         };
 
         TittleBar = new TittleBarComponent("projects",
-            AddButton, ImportProjectButton, LogoutButton
+            AddButton,
+            ImportProjectButton,
+            ProgressReportButton,
+            TaskCountReportButton,
+            LogoutButton
         );
 
         Content = new StackPanel

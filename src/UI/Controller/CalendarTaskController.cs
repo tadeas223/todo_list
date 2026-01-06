@@ -7,11 +7,11 @@ using DI;
 public class CalendarTaskController : IController
 {
     private MainWindow main;
-    private TaskView view;
+    private CalendarTaskView view;
     public CalendarTaskController(MainWindow main)
     {
         this.main = main;
-        view = new TaskView();
+        view = new CalendarTaskView();
     }
 
     public void Start(params object[] args)
