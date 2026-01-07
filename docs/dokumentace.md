@@ -59,7 +59,6 @@ Aplikace umožňuje tyto akce:
 ### Přihlášení
 
 Po spuštění aplikace se otevře přihlašovací formuláŕ. 
-<!-- ![přihlašovací formulář](imgs/login_page.png) -->
 
 formulář obsahuje:
  - url: adresa databáze
@@ -72,7 +71,6 @@ formulář obsahuje:
 ### Vytvoření databáze a přihlašovacích dat
 V přihlašovacím formulaři je tlačitko "database setup"
 po jeho spuštění se zobrazí tato stránka:
-<!-- ![registrační formulář](imgs/database_setup.png) -->
 
 formulář obsahuje:
  - url: adresa databáze
@@ -221,3 +219,9 @@ Všechny balícky jsou dostupné na Nu-Get repozitorářích.
 
 **ini-parser**
  - Parsování konfiguračních souborů
+
+
+
+ Poznámka:
+ UML diagramy nejsou aktuální, některé třídy byly upraveny a přidány.
+ View a Controllery tam nejsou vůbec.
