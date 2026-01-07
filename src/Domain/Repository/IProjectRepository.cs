@@ -5,6 +5,7 @@ namespace Domain.Repository;
 public interface IProjectRepository
 {
     public void Insert(ref Project project);
+    public void InsertMany(List<Project> projects);
     public void Update(Project project);
     public void Delete(Project project);
 

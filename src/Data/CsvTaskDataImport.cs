@@ -18,6 +18,9 @@ public class CsvTaskDataImport : IDataImport
     public void Import()
     {
         string[] lines = File.ReadAllLines(path);
+
+        List<TodoTask> tasks = new();
+        
         foreach (string line in lines)
         {
             string[] values = line.Split(';');
@@ -30,8 +33,10 @@ public class CsvTaskDataImport : IDataImport
                 .WithState((TaskState)Enum.Parse(typeof(TaskState), values[3].ToUpper()))
                 .Build();
 
-            Provider.Instance.ProvideTodoTaskRepository().Insert(ref task);
+            tasks.Add(task);
         }
+
+        Provider.Instance.ProvideTodoTaskRepository().InsertMany(tasks);
 
     }
 }

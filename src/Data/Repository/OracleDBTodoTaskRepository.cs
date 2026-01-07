@@ -61,6 +61,26 @@ class OracleDBTodoTaskRepository: ITodoTaskRepository
         task = newTask;
     }
 
+    public void InsertMany(List<TodoTask> tasks)
+    {
+        connection.BeginTransaction();
+
+        try
+        {
+            foreach(TodoTask task in tasks)
+            {
+                TodoTask t = task;
+                Insert(ref t);
+            }
+            connection.Commit();
+        }
+        catch
+        {
+            connection.Rollback();
+            throw;
+        }
+    }
+
     public void Update(TodoTask task)
     {
         string sql = """

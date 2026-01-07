@@ -42,6 +42,26 @@ class OracleDBBoardRepository: IBoardRepository
             .Build();
     }
 
+    public void InsertMany(List<Board> boards)
+    {
+        connection.BeginTransaction();
+
+        try
+        {
+            foreach(Board board in boards)
+            {
+                Board b = board;
+                Insert(ref b);
+            }
+            connection.Commit();
+        }
+        catch
+        {
+            connection.Rollback();
+            throw;
+        }
+    }
+
     public void Update(Board board)
     {
         string sql = "UPDATE board SET name = :name, project_id = :project_id WHERE id = :id";

@@ -18,6 +18,8 @@ public class CsvBoardDataImport : IDataImport
     public void Import()
     {
         string[] lines = File.ReadAllLines(path);
+
+        List<Board> boards = new();
         foreach (string line in lines)
         {
             string[] values = line.Split(';');
@@ -27,8 +29,9 @@ public class CsvBoardDataImport : IDataImport
                 .WithName(values[0])
                 .Build();
 
-            Provider.Instance.ProvideBoardRepository().Insert(ref board);
+            boards.Add(board);
         }
-
+            
+        Provider.Instance.ProvideBoardRepository().InsertMany(boards);
     }
 }

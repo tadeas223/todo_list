@@ -13,4 +13,8 @@ public interface IDBConnection
 
     public void Create(string sysUsername, string sysPassword, string datasource, string username, string password);
     public void Delete(string sysUsername, string sysPassword, string datasource, string username);
+
+    public void BeginTransaction();
+    public void Commit();
+    public void Rollback();
 }

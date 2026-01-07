@@ -16,6 +16,9 @@ public class CsvProjectDataImport : IDataImport
     public void Import()
     {
         string[] lines = File.ReadAllLines(path);
+
+        List<Project> projects = new();
+
         foreach (string line in lines)
         {
             string[] values = line.Split(';');
@@ -25,8 +28,9 @@ public class CsvProjectDataImport : IDataImport
                 .WithLocked(values[1] == "true")
                 .Build();
 
-            Provider.Instance.ProvideProjectRepository().Insert(ref project);
+            projects.Add(project);
         }
 
+        Provider.Instance.ProvideProjectRepository().InsertMany(projects);
     }
 }

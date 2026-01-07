@@ -5,6 +5,7 @@ namespace Domain.Repository;
 public interface ITodoTaskRepository
 {
     public void Insert(ref TodoTask task);
+    public void InsertMany(List<TodoTask> tasks);
     public void Update(TodoTask task);
     public void Delete(TodoTask task);
     

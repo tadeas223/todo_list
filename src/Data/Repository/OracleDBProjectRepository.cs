@@ -37,6 +37,26 @@ public class OracleDBProjectRepository: IProjectRepository
 
         project = newProject;
     }
+    
+    public void InsertMany(List<Project> projects)
+    {
+        connection.BeginTransaction();
+
+        try
+        {
+            foreach(Project project in projects)
+            {
+                Project p = project;
+                Insert(ref p);
+            }
+            connection.Commit();
+        }
+        catch
+        {
+            connection.Rollback();
+            throw;
+        }
+    }
 
     public void Update(Project project)
     {

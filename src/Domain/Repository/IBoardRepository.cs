@@ -6,6 +6,7 @@ namespace Domain.Repository;
 public interface IBoardRepository
 {
     public void Insert(ref Board board);
+    public void InsertMany(List<Board> boards);
     public void Update(Board board);
     public void Delete(Board board);
     

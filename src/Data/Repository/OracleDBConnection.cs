@@ -164,6 +164,33 @@ public class OracleDBConnection : IDBConnection
         """
         );
 
+        ExecuteNonQuery("""
+            CREATE TYPE board_list AS TABLE OF VARCHAR2(30)
+        """
+        );
+        
+        ExecuteNonQuery("""
+            CREATE PROCEDURE insert_boards(boards IN board_list)
+            IS
+            BEGIN
+                FOR i IN 1 .. boards.COUNT LOOP
+                    BEGIN
+                        INSERT INTO boards(name) VALUES (boards(i));
+                    EXCEPTION
+                        WHEN OTHERS THEN
+                            ROLLBACK;
+                            RAISE_APPLICATION_ERROR(
+                                -20001,
+                                'Error inserting "' || boards(i) || '": ' || SQLERRM
+                            );
+                    END;
+                END LOOP;
+
+                COMMIT;
+            END
+        """
+        );
+
         connection.Close();
     }
 
@@ -182,5 +209,30 @@ public class OracleDBConnection : IDBConnection
         cmd.ExecuteNonQuery();
 
         connection.Close();
+    }
+
+
+
+    public void BeginTransaction()
+    {
+        if (!Connected)
+            throw new InvalidOperationException("Not connected to the database.");
+        
+        connection!.BeginTransaction();
+    }
+
+    public void Commit()
+    {
+        if (!Connected)
+            throw new InvalidOperationException("Not connected to the database.");
+        
+        connection!.Commit();
+    }
+    public void Rollback()
+    {
+        if (!Connected)
+            throw new InvalidOperationException("Not connected to the database.");
+        
+        connection!.Rollback();
     }
 }
