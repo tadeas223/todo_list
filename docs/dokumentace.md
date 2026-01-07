@@ -48,7 +48,32 @@ Aplikace umožňuje tyto akce:
  - Vytvoření/smazání projektu, tabulí a kalendářů
  - Vytvoření/smazání/úprava úkolů v tabuli a v kalendáři
 
+### Přihlášení
+
 Po spuštění aplikace se otevře přihlašovací formuláŕ. 
 ![přihlašovací formulář](imgs/login_page.png)
 
-Pokud ještně není vytvořena databáze je potřeba
+formulář obsahuje:
+ - url: adresa databáze
+ - username: uživatelké jméno pro schéma
+ - password: heslo pro schéma
+
+**Pozor, jméno a heslo jsou vytvořené pomocí database setup.**
+**Pokud ještě nejsou vytvořena přihlašovací data, musí se vytvořit.**
+
+### Vytvoření databáze a přihlašovacích dat
+V přihlašovacím formulaři je tlačitko "database setup"
+po jeho spuštění se zobrazí tato stránka:
+![registrační formulář](imgs/database_setup.png)
+
+formulář obsahuje:
+ - url: adresa databáze
+ - system username: jméno administrátora databáze 
+ - system password: heslo administrátora databáze
+ - username: nové jméno
+ - password: nové heslo
+
+ Dále jsou ve formuláři tlačitka
+  - login: vrátí zpět na přilašovací formulář
+  - create database: vytvoří novou databázi
+  - delete database: smaže databázi se zadaným jménem
