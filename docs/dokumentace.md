@@ -49,11 +49,6 @@ Aplikace umožňuje tyto akce:
  - Vytvoření/smazání/úprava úkolů v tabuli a v kalendáři
 
 Po spuštění aplikace se otevře přihlašovací formuláŕ. 
-<img src="imgs/login_page.png" width="30%" stype="display: block; margin-bottom:10px;">
-
-
-
-
-
+![přihlašovací formulář](imgs/login_page.png)
 
 Pokud ještně není vytvořena databáze je potřeba
