@@ -15,7 +15,7 @@ public class OracleDBConnection : IDBConnection
         if (Connected)
             Disconnect();
 
-        var connString = $"User Id={username};Password={password};Data Source={datasource};";
+        var connString = $"User Id={username};Password={password};Data Source={datasource}";
         connection = new OracleConnection(connString);
         connection.Open();
     }
@@ -71,7 +71,7 @@ public class OracleDBConnection : IDBConnection
     
     public void Create(string sysUsername, string sysPassword, string datasource, string schema, string password)
     {
-        string sysConnString = $"User Id={sysUsername};Password={sysPassword};Data Source={datasource}/XE";
+        string sysConnString = $"User Id={sysUsername};Password={sysPassword};Data Source={datasource}";
         using var connection = new OracleConnection(sysConnString);
         connection.Open();
 
