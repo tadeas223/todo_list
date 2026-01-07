@@ -65,7 +65,7 @@ public class AddProjectView : UserControl
                 //BoardLabel,
                 //BoardField,
                 //BoardPanel,
-                AddBoardButton,
+                //AddBoardButton,
                 AddButton,
             }
         };
