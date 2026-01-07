@@ -4,7 +4,7 @@
 **Tadeáš Máca**
 **maca@spsejecna.cz**
 
-Školní pro školu SPŠE Ječná
+Školní projekt pro školu SPŠE Ječná
 
 ---
 
