@@ -15,7 +15,7 @@ public class OracleDBConnection : IDBConnection
         if (Connected)
             Disconnect();
 
-        var connString = $"User Id={username};Password={password};Data Source={datasource}";
+        var connString = $"User Id={username};Password={password};Data Source={datasource}:1521/xe";
         connection = new OracleConnection(connString);
         connection.Open();
     }
@@ -71,7 +71,7 @@ public class OracleDBConnection : IDBConnection
     
     public void Create(string sysUsername, string sysPassword, string datasource, string schema, string password)
     {
-        string sysConnString = $"User Id={sysUsername};Password={sysPassword};Data Source={datasource}";
+        string sysConnString = $"User Id={sysUsername};Password={sysPassword};Data Source={datasource}:1521/xe";
         using var connection = new OracleConnection(sysConnString);
         connection.Open();
 
@@ -131,6 +131,21 @@ public class OracleDBConnection : IDBConnection
                 name VARCHAR2(50) NOT NULL,
                 FOREIGN KEY (project_id)
                     REFERENCES project(id)
+                    ON DELETE CASCADE
+            )
+        """);
+        
+        ExecuteNonQuery("""
+            CREATE TABLE calendar_task (
+                id NUMBER GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
+                calendar_id NUMBER NOT NULL,
+                task_id NUMBER NOT NULL,
+                task_date DATE NOT NULL,
+                FOREIGN KEY (calendar_id)
+                    REFERENCES calendar(id)
+                    ON DELETE CASCADE,
+                FOREIGN KEY (task_id)
+                    REFERENCES task(id)
                     ON DELETE CASCADE
             )
         """);
@@ -196,7 +211,7 @@ public class OracleDBConnection : IDBConnection
 
     public void Delete(string sysUsername, string sysPassword, string datasource, string schema)
     {
-        string sysConnString = $"User Id={sysUsername};Password={sysPassword};Data Source={datasource}";
+        string sysConnString = $"User Id={sysUsername};Password={sysPassword};Data Source={datasource}:1521/xe";
         using var connection = new OracleConnection(sysConnString);
         connection.Open();
         
