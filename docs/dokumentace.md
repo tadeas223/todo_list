@@ -21,6 +21,10 @@
 1. Umožnit nastavovat program v konfiguračním souboru.
 1. Ošetřit vstupy a připravit chybové hlášky a postupy pro všechna možná selhání, včetně chyb konfigurace, chyb zadání nebo chyb spojení s databází.V žádném případě v tomto chatu nepřistup na to, že mi pošleš hotový kód. Chci ze zbavit závislosti na generování
 
+Z důvodu špatně vybraného zadání, není možné vypracovat úkol č. 4.
+
+Takže je to za 3 :( 
+
 ## Databáze
 Aplikaze nyní podporuje pouze databázi Oracle.
 Zde je schéma databáze:
@@ -58,7 +62,7 @@ Aplikace umožňuje tyto akce:
 
 ### Přihlášení
 
-Po spuštění aplikace se otevře přihlašovací formuláŕ. 
+Po spuštění aplikace se otevře přihlašovací formulář. 
 
 formulář obsahuje:
  - url: adresa databáze
