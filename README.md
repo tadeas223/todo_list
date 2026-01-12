@@ -1,4 +1,4 @@
-# todo list
+# todo list (D1)
 
 A task scheduler for projects that supports multiple kanban boards and calendars.
 
