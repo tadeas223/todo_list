@@ -83,7 +83,9 @@ formulář obsahuje:
  - username: nové jméno
  - password: nové heslo
 
-**pozor, administrátor musí mít práva pro vytváření uživatelů a nových tabulek.**
+**POZOR: Uživatelská jména musí začínat s "C##" jako třeba "C##uzivatel", jinak to nebude fungovat.**
+
+**POZOR: administrátor musí mít práva pro vytváření uživatelů a nových tabulek.**
 
  Dále jsou ve formuláři tlačitka
   - login: vrátí zpět na přilašovací formulář
